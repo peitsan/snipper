@@ -1,0 +1,113 @@
+<html>
+<body>
+<pre>
+<h1>µVision Build Log</h1>
+<h2>Tool Versions:</h2>
+IDE-Version: ¶ÃVision V5.25.3.0
+Copyright (C) 2018 ARM Ltd and ARM Germany GmbH. All rights reserved.
+License Information: peitsan iiru, cqupt, LIC=----
+ 
+Tool Versions:
+Toolchain:       MDK-Lite  Version: 5.10.0.0
+Toolchain Path:  F:\Program Files\Keil\ARM\ARMCC\Bin
+C Compiler:      Armcc.exe V5.04 update 1 (build 49)
+Assembler:       Armasm.exe V5.04 update 1 (build 49)
+Linker/Locator:  ArmLink.exe V5.04 update 1 (build 49)
+Library Manager: ArmAr.exe V5.04 update 1 (build 49)
+Hex Converter:   FromElf.exe V5.04 update 1 (build 49)
+CPU DLL:         SARMCM3.DLL V5.10.0.0
+Dialog DLL:      DARMSTM.DLL V1.65.0.0
+Target DLL:      STLink\ST-LINKIII-KEIL_SWO.dll V2.0.4.0_KEIL
+Dialog DLL:      TARMSTM.DLL V1.64.0.0
+ 
+<h2>Project:</h2>
+a:\github\snipper\USER\USMART.uvprojx
+Project File Date:  07/20/2023
+
+<h2>Output:</h2>
+*** Using Compiler 'V5.04 update 1 (build 49)', folder: 'F:\Program Files\Keil\ARM\ARMCC\Bin'
+Build target 'Target 1'
+compiling system_stm32f10x.c...
+compiling sys.c...
+compiling usart.c...
+compiling stm32f10x_gpio.c...
+assembling startup_stm32f10x_hd.s...
+compiling adc.c...
+compiling core_cm3.c...
+compiling main.c...
+compiling misc.c...
+compiling stm32f10x_it.c...
+compiling stm32f10x_flash.c...
+compiling delay.c...
+compiling stm32f10x_rcc.c...
+compiling stm32f10x_fsmc.c...
+compiling stm32f10x_tim.c...
+compiling stm32f10x_usart.c...
+compiling stm32f10x_adc.c...
+compiling stm32f10x_dac.c...
+compiling DTH11.c...
+..\my_file\DTH11\DTH11.c(64): warning:  #68-D: integer conversion resulted in a change of sign
+  	if(retry>45)  return -1;//Ë∂ÖÊó∂Ê£ÄÊµ?ÁªìÊùüÁ®ãÂ∫è
+..\my_file\DTH11\DTH11.c: 1 warning, 0 errors
+compiling stm32f10x_dma.c...
+compiling LQ12864.c...
+..\my_file\LCD12864\LQ12864.c(473): warning:  #188-D: enumerated type mixed with another type
+  	LCD_DC(1);;
+..\my_file\LCD12864\LQ12864.c(474): warning:  #188-D: enumerated type mixed with another type
+    LCD_SCL(0);;
+..\my_file\LCD12864\LQ12864.c(478): warning:  #188-D: enumerated type mixed with another type
+      if(data&0x80){LCD_SDA(1);}
+..\my_file\LCD12864\LQ12864.c(479): warning:  #188-D: enumerated type mixed with another type
+      else{LCD_SDA(0);}
+..\my_file\LCD12864\LQ12864.c(480): warning:  #188-D: enumerated type mixed with another type
+      LCD_SCL(1); 
+..\my_file\LCD12864\LQ12864.c(483): warning:  #188-D: enumerated type mixed with another type
+      LCD_SCL(0);;    
+..\my_file\LCD12864\LQ12864.c(493): warning:  #188-D: enumerated type mixed with another type
+  	LCD_DC(0);;
+..\my_file\LCD12864\LQ12864.c(494): warning:  #188-D: enumerated type mixed with another type
+    LCD_SCL(0);;
+..\my_file\LCD12864\LQ12864.c(498): warning:  #188-D: enumerated type mixed with another type
+      if(cmd&0x80){LCD_SDA(1);}
+..\my_file\LCD12864\LQ12864.c(499): warning:  #188-D: enumerated type mixed with another type
+      else{LCD_SDA(0);;}
+..\my_file\LCD12864\LQ12864.c(500): warning:  #188-D: enumerated type mixed with another type
+      LCD_SCL(1);;
+..\my_file\LCD12864\LQ12864.c(503): warning:  #188-D: enumerated type mixed with another type
+      LCD_SCL(0);;    
+..\my_file\LCD12864\LQ12864.c(572): warning:  #188-D: enumerated type mixed with another type
+  	GPIO_WriteBit(GPIOB,GPIO_Pin_6,0) ;
+..\my_file\LCD12864\LQ12864.c(573): warning:  #188-D: enumerated type mixed with another type
+  	GPIO_WriteBit(GPIOB,GPIO_Pin_7,0) ;
+..\my_file\LCD12864\LQ12864.c(574): warning:  #188-D: enumerated type mixed with another type
+  	GPIO_WriteBit(GPIOB,GPIO_Pin_8,0) ;
+..\my_file\LCD12864\LQ12864.c(575): warning:  #188-D: enumerated type mixed with another type
+  	GPIO_WriteBit(GPIOB,GPIO_Pin_9,0) ;
+..\my_file\LCD12864\LQ12864.c(578): warning:  #188-D: enumerated type mixed with another type
+  	LCD_SCL(1);
+..\my_file\LCD12864\LQ12864.c(581): warning:  #188-D: enumerated type mixed with another type
+  	LCD_RST(0);
+..\my_file\LCD12864\LQ12864.c(583): warning:  #188-D: enumerated type mixed with another type
+  	LCD_RST(1);
+..\my_file\LCD12864\LQ12864.c: 19 warnings, 0 errors
+linking...
+Program Size: Code=9274 RO-data=4194 RW-data=820 ZI-data=1836  
+FromELF: creating hex file...
+"..\OBJ\ADC.axf" - 0 Error(s), 20 Warning(s).
+
+<h2>Software Packages used:</h2>
+
+Package Vendor: Keil
+                http://www.keil.com/pack/Keil.STM32F1xx_DFP.2.4.0.pack
+                Keil.STM32F1xx_DFP.2.4.0
+                STMicroelectronics STM32F1 Series Device Support, Drivers and Examples
+
+<h2>Collection of Component include folders:</h2>
+  .\RTE\_Target_1
+  F:\keil5 MDK\Keil\STM32F1xx_DFP\2.4.0\Device\Include
+
+<h2>Collection of Component Files used:</h2>
+Build Time Elapsed:  00:00:03
+</pre>
+</body>
+</html>
