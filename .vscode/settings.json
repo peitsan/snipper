@@ -1,0 +1,7 @@
+{
+    "files.associations": {
+        "stm32f10x_conf.h": "c",
+        "oled_font.h": "c",
+        "stm32f10x.h": "c"
+    }
+}

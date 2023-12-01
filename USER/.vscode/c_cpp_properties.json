@@ -94,8 +94,11 @@
                 "__yield()=",
                 "__vfp_status(x,y)=0"
             ],
-            "intelliSenseMode": "${default}"
+            "intelliSenseMode": "${default}",
+            "file":{
+                "encoding": "gb2312"
+            }
         }
     ],
-    "version": 4
+    "version": 4,
 }

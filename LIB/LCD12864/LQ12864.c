@@ -1,14 +1,5 @@
-
-
 #include "LQ12864.h"
 #include "stdio.h"
-
-
-
-
-
-
-
 
 
 
