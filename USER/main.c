@@ -14,8 +14,7 @@
 //宏定义
 
 void OUTPUT_Init(void)
-{
- 
+{ 
  GPIO_InitTypeDef  GPIO_InitStructure;
  	
  RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOB, ENABLE);	 //使能P端口时钟
@@ -26,7 +25,7 @@ void OUTPUT_Init(void)
  GPIO_Init(GPIOB, &GPIO_InitStructure);
  GPIO_SetBits(GPIOB,GPIO_Pin_14);						 //输出高
  GPIO_SetBits(GPIOB,GPIO_Pin_15);						 //输出高
-GPIO_SetBits(GPIOB,GPIO_Pin_10);						 //输出高
+ GPIO_SetBits(GPIOB,GPIO_Pin_10);						 //输出高
 }
 void KEY_Init(void)
 {
@@ -41,6 +40,13 @@ void KEY_Init(void)
 int main(void)
 {	 
 	int buf1=0,buf2=30,buf3=30;
+////////////////////////////////////////////////////////////////////////////////// 	 
+// 参数说明：
+// buf1:控制启动开关  0:温度  1:湿度
+// buf2:设定温度值   0.0~100.0摄氏度
+// buf3:设定湿度值   0.0%~100.0%
+////////////////////////////////////////////////////////////////////////////////// 	 
+
 	u8 temp = 0, hum = 0;
 	unsigned char buf[100] = { 0 };
 	DELAY_Init();//下面都是初始化函数
@@ -59,12 +65,12 @@ int main(void)
 		if(key_set==1) //设置按键
 		{	
 			while(key_set!=0);
-				buf1++;
-			if(buf1>1) buf1=0;
+				buf1++;             //防抖
+			if(buf1>1) buf1=0;    //开 1/关 0
 		}
-		if(key_plus==1&&buf1==0) //期望温度值+1
+		if(key_plus==1 && buf1==0) //期望温度值+1
 		{		
-			while(key_plus!=0);
+			while(key_plus!=0); 
 				buf2++;	
 			if(buf2>100) buf2=100,OLED_Init();			
 		}

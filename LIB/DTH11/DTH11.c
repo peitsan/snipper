@@ -1,4 +1,5 @@
 #include "DTH11.h"
+#include "Delay.h"
 #include "stm32f10x_conf.h"
 void delay(int32_t us)
 {
@@ -27,9 +28,9 @@ void DHT11_Rst(void)
     DHT11_IO_OUT(); //SET OUTPUT
     DHT11_DQ_High ;
     DHT11_DQ_Low; //DQ=0
-    delay(25000);    //拉低至少18ms
+    delay_us(30000);    //拉低至少18ms
     DHT11_DQ_High; //DQ=1 
-    delay(55);     //主机拉高20~40us
+    delay_us(35);     //主机拉高20~40us
 }
 //等待DHT11的回应
 //返回1:未检测到DHT11的存在
@@ -155,6 +156,86 @@ uint8_t DHT_ByteRead(unsigned char *dat)
 	else 
 		return 0;
 }
+/////////////////////////////////////////////////////
+ 
+// void DHT11_GPIO_Config(void)
+// {		
+// 	GPIO_InitTypeDef GPIO_InitStructure;
+
+// 	RCC_APB2PeriphClockCmd(DHT11_Out_RCC, ENABLE); 
+//   	GPIO_InitStructure.GPIO_Pin = DHT11_Out_Pin;	
+//  	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;   
+//   	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz; 
+//   	GPIO_Init(DHT11, &GPIO_InitStructure);		  
+
+// 	GPIO_SetBits(DHT11, DHT11_Out_Pin);	 
+// }
+
+static void DHT11_Mode_IPU(void)
+{
+ 	  GPIO_InitTypeDef GPIO_InitStructure;
+	  GPIO_InitStructure.GPIO_Pin = DHT11_Out_Pin;
+	  GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IPU ; 
+	  GPIO_Init(DHT11, &GPIO_InitStructure);	 
+}
+
+static void DHT11_Mode_Out_PP(void)
+{
+ 	GPIO_InitTypeDef GPIO_InitStructure;
+
+  	GPIO_InitStructure.GPIO_Pin = DHT11_Out_Pin;	
+
+  	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;   
+
+  	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
+
+  	GPIO_Init(DHT11, &GPIO_InitStructure);	 	 
+}
+
+
+uint8_t Read_DHT11(DHT11_Data_TypeDef *DHT11_Data)
+{  
+	DHT11_Mode_Out_PP();
+	DHT11_DATA_OUT(LOW);
+	delay_ms(18);
+
+	DHT11_DATA_OUT(HIGH); 
+
+	delay_us(30);  
+
+	DHT11_Mode_IPU();
+
+	if(DHT11_DATA_IN() == Bit_RESET)     
+	{
+		while(DHT11_DATA_IN() == Bit_RESET);
+
+		while(DHT11_DATA_IN() == Bit_SET);
+
+		DHT11_Data -> humi_int = DHT11_Read_Byte();
+
+		DHT11_Data -> humi_deci = DHT11_Read_Byte();
+
+		DHT11_Data -> temp_int = DHT11_Read_Byte();
+
+		DHT11_Data -> temp_deci = DHT11_Read_Byte();
+
+		DHT11_Data -> check_sum= DHT11_Read_Byte();
+
+
+		DHT11_Mode_Out_PP();
+		DHT11_DATA_OUT(HIGH);
+
+		if (DHT11_Data -> check_sum == DHT11_Data -> humi_int + DHT11_Data -> humi_deci + DHT11_Data -> temp_int + DHT11_Data -> temp_deci)
+			return SUCCESS;
+		else 
+			return ERROR;
+	}
+	else
+	{		
+		return ERROR;
+	}   
+}
+
 //int main(void)
 //{
 //   u8 wd=0;      
