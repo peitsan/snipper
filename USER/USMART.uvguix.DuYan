@@ -1364,7 +1364,7 @@
         <PaneID>0</PaneID>
       </Doc>
       <Doc>
-        <Name>..\my_file\TIM_TIMER\timer.c</Name>
+        <Name>..\LIB\TIM_TIMER\timer.c</Name>
         <ColumnNumber>75</ColumnNumber>
         <TopLine>10</TopLine>
         <CurrentLine>19</CurrentLine>
@@ -1382,7 +1382,7 @@
         <PaneID>0</PaneID>
       </Doc>
       <Doc>
-        <Name>..\my_file\DTH11\DTH11.c</Name>
+        <Name>..\LIB\DTH11\DTH11.c</Name>
         <ColumnNumber>0</ColumnNumber>
         <TopLine>169</TopLine>
         <CurrentLine>178</CurrentLine>
@@ -1391,7 +1391,7 @@
         <PaneID>0</PaneID>
       </Doc>
       <Doc>
-        <Name>..\my_file\DTH11\DTH11.h</Name>
+        <Name>..\LIB\DTH11\DTH11.h</Name>
         <ColumnNumber>10</ColumnNumber>
         <TopLine>6</TopLine>
         <CurrentLine>17</CurrentLine>
@@ -1400,7 +1400,7 @@
         <PaneID>0</PaneID>
       </Doc>
       <Doc>
-        <Name>..\my_file\menue\menue.c</Name>
+        <Name>..\LIB\menue\menue.c</Name>
         <ColumnNumber>0</ColumnNumber>
         <TopLine>130</TopLine>
         <CurrentLine>292</CurrentLine>
@@ -1409,7 +1409,7 @@
         <PaneID>0</PaneID>
       </Doc>
       <Doc>
-        <Name>..\my_file\menue\menue.h</Name>
+        <Name>..\LIB\menue\menue.h</Name>
         <ColumnNumber>26</ColumnNumber>
         <TopLine>2</TopLine>
         <CurrentLine>11</CurrentLine>
@@ -1418,7 +1418,7 @@
         <PaneID>0</PaneID>
       </Doc>
       <Doc>
-        <Name>..\my_file\TIM_TIMER\timer.h</Name>
+        <Name>..\LIB\TIM_TIMER\timer.h</Name>
         <ColumnNumber>24</ColumnNumber>
         <TopLine>1</TopLine>
         <CurrentLine>27</CurrentLine>

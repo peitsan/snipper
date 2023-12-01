@@ -1,4 +1,5 @@
 #include "adc.h"
+#include "stm32f10x_conf.h"
 
 void Adc_Init(void)
 {

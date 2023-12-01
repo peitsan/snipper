@@ -1882,7 +1882,7 @@
         <PaneID>0</PaneID>
       </Doc>
       <Doc>
-        <Name>..\my_file\OLED\LQ12864.c</Name>
+        <Name>..\LIB\OLED\Oled.c</Name>
         <ColumnNumber>0</ColumnNumber>
         <TopLine>673</TopLine>
         <CurrentLine>686</CurrentLine>
@@ -1891,7 +1891,7 @@
         <PaneID>0</PaneID>
       </Doc>
       <Doc>
-        <Name>..\my_file\DTH11\DTH11.c</Name>
+        <Name>..\LIB\DTH11\DTH11.c</Name>
         <ColumnNumber>25</ColumnNumber>
         <TopLine>97</TopLine>
         <CurrentLine>130</CurrentLine>
@@ -1900,7 +1900,7 @@
         <PaneID>0</PaneID>
       </Doc>
       <Doc>
-        <Name>..\my_file\DTH11\DTH11.h</Name>
+        <Name>..\LIB\DTH11\DTH11.h</Name>
         <ColumnNumber>2</ColumnNumber>
         <TopLine>1</TopLine>
         <CurrentLine>19</CurrentLine>
@@ -1909,7 +1909,7 @@
         <PaneID>0</PaneID>
       </Doc>
       <Doc>
-        <Name>..\my_file\OLED\LQ12864.h</Name>
+        <Name>..\LIB\OLED\Oled.h</Name>
         <ColumnNumber>23</ColumnNumber>
         <TopLine>1</TopLine>
         <CurrentLine>9</CurrentLine>

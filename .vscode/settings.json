@@ -2,6 +2,13 @@
     "files.associations": {
         "stm32f10x_conf.h": "c",
         "oled_font.h": "c",
-        "stm32f10x.h": "c"
+        "stm32f10x.h": "c",
+        "dth11.h": "c",
+        "Oled.h": "c",
+        "stm32f10x_flash.h": "c",
+        "delay.h": "c",
+        "usart.h": "c",
+        "sys.h": "c",
+        "stdio.h": "c"
     }
 }

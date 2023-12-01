@@ -22,78 +22,57 @@ Dialog DLL:      TARMSTM.DLL V1.64.0.0
  
 <h2>Project:</h2>
 a:\github\snipper\USER\USMART.uvprojx
-Project File Date:  07/20/2023
+Project File Date:  12/01/2023
 
 <h2>Output:</h2>
 *** Using Compiler 'V5.04 update 1 (build 49)', folder: 'F:\Program Files\Keil\ARM\ARMCC\Bin'
 Build target 'Target 1'
-compiling system_stm32f10x.c...
-compiling sys.c...
-compiling usart.c...
-compiling stm32f10x_gpio.c...
+compiling main.c...
+main.c(46): warning:  #223-D: function "DELAY_Init" declared implicitly
+  	DELAY_Init();//ÏÂÃæ¶¼ÊÇ³õÊ¼»¯º¯Êý
+main.c(55): warning:  #167-D: argument of type "unsigned char *" is incompatible with parameter of type "char *"
+  		OLED_ShowString(2, 1, buf);//×Ö·û´®ÏÔÊ¾
+main.c(57): warning:  #167-D: argument of type "unsigned char *" is incompatible with parameter of type "char *"
+  		OLED_ShowString(2, 3, buf);//×Ö·û´®ÏÔÊ¾
+main.c(92): warning:  #167-D: argument of type "unsigned char *" is incompatible with parameter of type "char *"
+  		OLED_ShowString(80, 1, buf);//×Ö·û´®ÏÔÊ¾
+main.c(94): warning:  #167-D: argument of type "unsigned char *" is incompatible with parameter of type "char *"
+  		OLED_ShowString(80, 3, buf);//×Ö·û´®ÏÔÊ¾
+main.c(106): warning:  #167-D: argument of type "unsigned char *" is incompatible with parameter of type "char *"
+  			OLED_ShowString(30, 6, buf);//×Ö·û´®ÏÔÊ¾
+main.c(111): warning:  #167-D: argument of type "unsigned char *" is incompatible with parameter of type "char *"
+  			OLED_ShowString(30, 6, buf);//×Ö·û´®ÏÔÊ¾
+main.c: 7 warnings, 0 errors
 assembling startup_stm32f10x_hd.s...
+compiling delay.c...
 compiling adc.c...
 compiling core_cm3.c...
-compiling main.c...
+compiling usart.c...
+compiling system_stm32f10x.c...
 compiling misc.c...
-compiling stm32f10x_it.c...
+compiling stm32f10x_gpio.c...
+compiling Oled.c...
+compiling sys.c...
 compiling stm32f10x_flash.c...
-compiling delay.c...
+compiling stm32f10x_it.c...
 compiling stm32f10x_rcc.c...
 compiling stm32f10x_fsmc.c...
 compiling stm32f10x_tim.c...
 compiling stm32f10x_usart.c...
 compiling stm32f10x_adc.c...
 compiling stm32f10x_dac.c...
-compiling DTH11.c...
-..\my_file\DTH11\DTH11.c(64): warning:  #68-D: integer conversion resulted in a change of sign
-  	if(retry>45)  return -1;//è¶…æ—¶æ£€æµ?ç»“æŸç¨‹åº
-..\my_file\DTH11\DTH11.c: 1 warning, 0 errors
 compiling stm32f10x_dma.c...
-compiling LQ12864.c...
-..\my_file\LCD12864\LQ12864.c(473): warning:  #188-D: enumerated type mixed with another type
-  	LCD_DC(1);;
-..\my_file\LCD12864\LQ12864.c(474): warning:  #188-D: enumerated type mixed with another type
-    LCD_SCL(0);;
-..\my_file\LCD12864\LQ12864.c(478): warning:  #188-D: enumerated type mixed with another type
-      if(data&0x80){LCD_SDA(1);}
-..\my_file\LCD12864\LQ12864.c(479): warning:  #188-D: enumerated type mixed with another type
-      else{LCD_SDA(0);}
-..\my_file\LCD12864\LQ12864.c(480): warning:  #188-D: enumerated type mixed with another type
-      LCD_SCL(1); 
-..\my_file\LCD12864\LQ12864.c(483): warning:  #188-D: enumerated type mixed with another type
-      LCD_SCL(0);;    
-..\my_file\LCD12864\LQ12864.c(493): warning:  #188-D: enumerated type mixed with another type
-  	LCD_DC(0);;
-..\my_file\LCD12864\LQ12864.c(494): warning:  #188-D: enumerated type mixed with another type
-    LCD_SCL(0);;
-..\my_file\LCD12864\LQ12864.c(498): warning:  #188-D: enumerated type mixed with another type
-      if(cmd&0x80){LCD_SDA(1);}
-..\my_file\LCD12864\LQ12864.c(499): warning:  #188-D: enumerated type mixed with another type
-      else{LCD_SDA(0);;}
-..\my_file\LCD12864\LQ12864.c(500): warning:  #188-D: enumerated type mixed with another type
-      LCD_SCL(1);;
-..\my_file\LCD12864\LQ12864.c(503): warning:  #188-D: enumerated type mixed with another type
-      LCD_SCL(0);;    
-..\my_file\LCD12864\LQ12864.c(572): warning:  #188-D: enumerated type mixed with another type
-  	GPIO_WriteBit(GPIOB,GPIO_Pin_6,0) ;
-..\my_file\LCD12864\LQ12864.c(573): warning:  #188-D: enumerated type mixed with another type
-  	GPIO_WriteBit(GPIOB,GPIO_Pin_7,0) ;
-..\my_file\LCD12864\LQ12864.c(574): warning:  #188-D: enumerated type mixed with another type
-  	GPIO_WriteBit(GPIOB,GPIO_Pin_8,0) ;
-..\my_file\LCD12864\LQ12864.c(575): warning:  #188-D: enumerated type mixed with another type
-  	GPIO_WriteBit(GPIOB,GPIO_Pin_9,0) ;
-..\my_file\LCD12864\LQ12864.c(578): warning:  #188-D: enumerated type mixed with another type
-  	LCD_SCL(1);
-..\my_file\LCD12864\LQ12864.c(581): warning:  #188-D: enumerated type mixed with another type
-  	LCD_RST(0);
-..\my_file\LCD12864\LQ12864.c(583): warning:  #188-D: enumerated type mixed with another type
-  	LCD_RST(1);
-..\my_file\LCD12864\LQ12864.c: 19 warnings, 0 errors
+compiling DTH11.c...
+..\LIB\DTH11\DTH11.c(62): warning:  #68-D: integer conversion resulted in a change of sign
+  	if(retry>45)  return -1;//³¬Ê±¼ì²â ½áÊø³ÌÐò
+..\LIB\DTH11\DTH11.c: 1 warning, 0 errors
+compiling Oled.c...
 linking...
-Program Size: Code=9274 RO-data=4194 RW-data=820 ZI-data=1836  
+..\OBJ\ADC.axf: Warning: L6304W: Duplicate input file ..\obj\oled_1.o ignored.
+Program Size: Code=7256 RO-data=1856 RW-data=52 ZI-data=1836  
+Finished: 0 information, 1 warning and 0 error messages.
 FromELF: creating hex file...
-"..\OBJ\ADC.axf" - 0 Error(s), 20 Warning(s).
+"..\OBJ\ADC.axf" - 0 Error(s), 9 Warning(s).
 
 <h2>Software Packages used:</h2>
 
@@ -107,7 +86,7 @@ Package Vendor: Keil
   F:\keil5 MDK\Keil\STM32F1xx_DFP\2.4.0\Device\Include
 
 <h2>Collection of Component Files used:</h2>
-Build Time Elapsed:  00:00:03
+Build Time Elapsed:  00:00:02
 </pre>
 </body>
 </html>

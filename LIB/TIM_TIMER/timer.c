@@ -1,12 +1,12 @@
 #include "timer.h" 
-#include "LQ12864.h"
+#include "Oled.h"
 #include "stdio.h"
-Status Light ;                               //å®šä¹‰äº¤é€šç¯çš„çŠ¶æ€
-uint16_t second = 60 ;                       //æ—¶é—´ï¼Œå•ä½æ˜¯ç§’
-uint16_t foul_people = 0 ;                   //é—¯çº¢ç¯çš„äººæ•°
-uint16_t foul_flags  = 1 ;                   //é—¯çº¢ç¯ç¡®å®šæ ‡å¿—ä½
-uint16_t dat = 0         ;                   //æ¥æ”¶ä¸Šä½æœºå‘é€çš„æ•°æ®
-/****************************TIM2åˆå§‹åŒ–***********************/
+Status Light ;                               //¶¨Òå½»Í¨µÆµÄ×´??
+uint16_t second = 60 ;                       //Ê±¼ä£¬µ¥Î»ÊÇ??
+uint16_t foul_people = 0 ;                   //??ºìµÆµÄÈË??
+uint16_t foul_flags  = 1 ;                   //??ºìµÆ??¶¨±êÖ¾Î»
+uint16_t dat = 0         ;                   //½ÓÊÕÉÏÎ»»ú·¢ËÍµÄÊı¾İ
+/****************************TIM2³õ???»¯***********************/
 
 void TIME3_init(void)
 {
@@ -14,9 +14,9 @@ void TIME3_init(void)
 	TIM_TimeBaseInitTypeDef TIM_TimeBaseStruct;
 	RCC_APB2PeriphClockCmd(RCC_APB2Periph_TIM1,ENABLE);
 	RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM3, ENABLE);
-  TIM_TimeBaseStruct.TIM_Prescaler = (72-1);             //é¢„åˆ†é¢‘ä¸º72ï¼Œæ¯è®°ä¸€æ¬¡æ•°ä¸º1us    
-  TIM_TimeBaseStruct.TIM_CounterMode = TIM_CounterMode_Up; //è®¾ç½®è®¡æ•°æ–¹å¼ä¸ºå‘ä¸Šè®¡æ•°
-	TIM_TimeBaseStruct.TIM_Period = 100;                   //æœ€å¤§è®¡æ•°å€¼ä¸º100ï¼Œå³100uså¯äº§ç”Ÿä¸€æ¬¡ä¸­æ–­
+  TIM_TimeBaseStruct.TIM_Prescaler = (72-1);             //Ô¤·ÖÆµÎª72£¬Ã¿¼ÇÒ»´ÎÊı??1us    
+  TIM_TimeBaseStruct.TIM_CounterMode = TIM_CounterMode_Up; //ÉèÖÃ¼ÆÊı·½Ê½ÎªÏòÉÏ???Êı
+	TIM_TimeBaseStruct.TIM_Period = 100;                   //×î´ó???ÊıÖµÎª100£¬¼´100us??²úÉúÒ»´ÎÖĞ??
 	TIM_TimeBaseInit(TIM3,&TIM_TimeBaseStruct);
 	TIM_ITConfig(TIM3,TIM_IT_Update|TIM_IT_Trigger,ENABLE);
 	TIM_Cmd(TIM3,ENABLE);
@@ -26,20 +26,20 @@ void NVIC_Config(void)
 {
 	NVIC_InitTypeDef NVIC_InitStructure;
 	                                 
-	NVIC_PriorityGroupConfig(NVIC_PriorityGroup_2);           //è®¾ç½®NCIVä¸­æ–­åˆ†ç»„ï¼Œ2ä½æŠ¢å ä¼˜å…ˆçº§ï¼Œ2ä½å“åº”ä¼˜å…ˆçº§
-	NVIC_InitStructure.NVIC_IRQChannel = TIM3_IRQn;           //è®¾ç½®ä¸­æ–­é€šé“ä¸ºTIM3
-	NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 1; //è®¾ç½®æŠ¢å ä¼˜å…ˆçº§ä¸º1
-	NVIC_InitStructure.NVIC_IRQChannelSubPriority = 1;        //è®¾ç½®å“åº”ä¼˜å…ˆçº§ä¸º1
-	NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;           //é€šé“ä½¿èƒ½
+	NVIC_PriorityGroupConfig(NVIC_PriorityGroup_2);           //ÉèÖÃNCIV????·Ö×é??2Î»ÇÀÕ¼ÓÅÏÈ¼¶??2Î»ÏìÓ¦ÓÅÏÈ¼¶
+	NVIC_InitStructure.NVIC_IRQChannel = TIM3_IRQn;           //ÉèÖÃ????Í¨µÀÎªTIM3
+	NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 1; //ÉèÖÃÇÀÕ¼ÓÅÏÈ¼¶Îª1
+	NVIC_InitStructure.NVIC_IRQChannelSubPriority = 1;        //ÉèÖÃÏìÓ¦ÓÅÏÈ¼¶Îª1
+	NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;           //Í¨µÀÊ¹ÄÜ
 	NVIC_Init(&NVIC_InitStructure);  
 	
 }
 
-/**********************TIM3çš„ä¸­æ–­æœåŠ¡å‡½æ•°*************************/
+/**********************TIM3µÄÖĞ??·şÎñº¯Êı*************************/
 void TIM3_IRQHandler()
 {
 	static int i = 0 ; 
-	if(TIM_GetITStatus(TIM3,TIM_IT_Update)!=RESET) //æ¯äº§ç”Ÿä¸€æ¬¡ä¸­æ–­ä¸º1s
+	if(TIM_GetITStatus(TIM3,TIM_IT_Update)!=RESET) //Ã¿²úÉúÒ»´ÎÖĞ????1s
 	{
 		if(i < Duty)
 		{
@@ -60,8 +60,8 @@ void TIM3_IRQHandler()
 	}
 }
 
-/****************************USART2åˆå§‹åŒ–**************/
-//ç”¨äºè“ç‰™é€šä¿¡
+/****************************USART2³õ???»¯**************/
+//ÓÃÓÚÀ¶ÑÀÍ¨ĞÅ
 void USART2_init(void)
 {
 	GPIO_InitTypeDef  GPIO_InitStruct;

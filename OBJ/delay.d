@@ -6,13 +6,12 @@
 ..\obj\delay.o: F:\Program Files\Keil\ARM\ARMCC\Bin\..\include\stdint.h
 ..\obj\delay.o: ..\USER\system_stm32f10x.h
 ..\obj\delay.o: ..\USER\stm32f10x_conf.h
-..\obj\delay.o: ..\my_file\TIM_TIMER\timer.h
-..\obj\delay.o: ..\my_file\DTH11\DTH11.h
+..\obj\delay.o: ..\LIB\TIM_TIMER\timer.h
+..\obj\delay.o: ..\LIB\DTH11\DTH11.h
 ..\obj\delay.o: ..\USER\stm32f10x.h
 ..\obj\delay.o: ..\SYSTEM\delay\delay.h
 ..\obj\delay.o: ..\SYSTEM\sys\sys.h
-..\obj\delay.o: ..\my_file\LCD12864\LQ12864.h
-..\obj\delay.o: ..\USER\stm32f10x_conf.h
+..\obj\delay.o: ..\LIB\OLED\Oled.h
 ..\obj\delay.o: ..\STM32F10x_FWLib\inc\stm32f10x_adc.h
 ..\obj\delay.o: ..\STM32F10x_FWLib\inc\stm32f10x_dma.h
 ..\obj\delay.o: ..\STM32F10x_FWLib\inc\stm32f10x_flash.h

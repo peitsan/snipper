@@ -337,7 +337,7 @@
               <MiscControls></MiscControls>
               <Define>USE_STDPERIPH_DRIVER</Define>
               <Undefine></Undefine>
-              <IncludePath>..\SYSTEM\delay;..\SYSTEM\sys;..\SYSTEM\usart;..\USER;..\STM32F10x_FWLib\inc;..\CORE;..\HARDWARE\KEY;..\USMART;..\my_file\LCD12864;..\my_file\TIM_TIMER;..\my_file\DTH11;..\my_file\menue</IncludePath>
+              <IncludePath>..\SYSTEM\delay;..\SYSTEM\sys;..\SYSTEM\usart;..\USER;..\STM32F10x_FWLib\inc;..\CORE;..\HARDWARE\KEY;..\USMART;..\LIB\LCD12864;..\LIB\TIM_TIMER;..\LIB\DTH11;..\LIB\menue;..\LIB\OLED</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -400,6 +400,21 @@
               <FileName>adc.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\adc.c</FilePath>
+            </File>
+            <File>
+              <FileName>Oled.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\LIB\OLED\Oled.c</FilePath>
+            </File>
+            <File>
+              <FileName>Oled.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\LIB\OLED\Oled.h</FilePath>
+            </File>
+            <File>
+              <FileName>Oled_font.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\LIB\OLED\Oled_font.h</FilePath>
             </File>
           </Files>
         </Group>
@@ -494,17 +509,17 @@
           </Files>
         </Group>
         <Group>
-          <GroupName>my_file</GroupName>
+          <GroupName>LIB</GroupName>
           <Files>
             <File>
               <FileName>DTH11.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\my_file\DTH11\DTH11.c</FilePath>
+              <FilePath>..\LIB\DTH11\DTH11.c</FilePath>
             </File>
             <File>
-              <FileName>LQ12864.c</FileName>
+              <FileName>Oled.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\my_file\LCD12864\LQ12864.c</FilePath>
+              <FilePath>..\LIB\OLED\Oled.c</FilePath>
             </File>
           </Files>
         </Group>

@@ -11,10 +11,11 @@
                 "a:\\github\\snipper\\CORE",
                 "a:\\github\\snipper\\HARDWARE\\KEY",
                 "a:\\github\\snipper\\USMART",
-                "a:\\github\\snipper\\my_file\\LCD12864",
-                "a:\\github\\snipper\\my_file\\TIM_TIMER",
-                "a:\\github\\snipper\\my_file\\DTH11",
-                "a:\\github\\snipper\\my_file\\menue",
+                "a:\\github\\snipper\\LIB\\LCD12864",
+                "a:\\github\\snipper\\LIB\\TIM_TIMER",
+                "a:\\github\\snipper\\LIB\\DTH11",
+                "a:\\github\\snipper\\LIB\\menue",
+                "a:\\github\\snipper\\LIB\\OLED",
                 "F:\\Program Files\\Keil\\ARM\\ARMCC\\include",
                 "F:\\Program Files\\Keil\\ARM\\ARMCC\\include\\rw",
                 "a:\\github\\snipper\\STM32F10x_FWLib\\src"
@@ -94,11 +95,8 @@
                 "__yield()=",
                 "__vfp_status(x,y)=0"
             ],
-            "intelliSenseMode": "${default}",
-            "file":{
-                "encoding": "gb2312"
-            }
+            "intelliSenseMode": "${default}"
         }
     ],
-    "version": 4,
+    "version": 4
 }

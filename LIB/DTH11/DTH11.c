@@ -1,13 +1,11 @@
 #include "DTH11.h"
-
+#include "stm32f10x_conf.h"
 void delay(int32_t us)
 {
-	while(us--)
-	{
-		
-	}
+	while(us--){}
 }
-void DHT11_IO_IN(void)//æ¸©æ¹¿åº¦æ¨¡å—è¾“å…¥å‡½æ•°
+
+void DHT11_IO_IN(void)//ÎÂÊª¶ÈÄ£¿éÊäÈëº¯Êı
 {
 	GPIO_InitTypeDef GPIO_InitStructure;
 	GPIO_InitStructure.GPIO_Pin=IO_DHT11;
@@ -15,7 +13,7 @@ void DHT11_IO_IN(void)//æ¸©æ¹¿åº¦æ¨¡å—è¾“å…¥å‡½æ•°
 	GPIO_Init(GPIO_DHT11,&GPIO_InitStructure);
 }
 
-void DHT11_IO_OUT(void)//æ¸©æ¹¿åº¦æ¨¡å—è¾“å‡ºå‡½æ•°
+void DHT11_IO_OUT(void)//ÎÂÊª¶ÈÄ£¿éÊä³öº¯Êı
 {
 	GPIO_InitTypeDef GPIO_InitStructure;
 	GPIO_InitStructure.GPIO_Pin=IO_DHT11;
@@ -23,24 +21,24 @@ void DHT11_IO_OUT(void)//æ¸©æ¹¿åº¦æ¨¡å—è¾“å‡ºå‡½æ•°
 	GPIO_InitStructure.GPIO_Mode=GPIO_Mode_Out_PP;
 	GPIO_Init(GPIO_DHT11,&GPIO_InitStructure);
 }
-//å¤ä½DHT11
+//¸´Î»DHT11
 void DHT11_Rst(void)   
 {                 
     DHT11_IO_OUT(); //SET OUTPUT
     DHT11_DQ_High ;
     DHT11_DQ_Low; //DQ=0
-    delay(25000);    //æ‹‰ä½è‡³å°‘18ms
+    delay(25000);    //À­µÍÖÁÉÙ18ms
     DHT11_DQ_High; //DQ=1 
-    delay(55);     //ä¸»æœºæ‹‰é«˜20~40us
+    delay(55);     //Ö÷»úÀ­¸ß20~40us
 }
-//ç­‰å¾…DHT11çš„å›åº”
-//è¿”å›1:æœªæ£€æµ‹åˆ°DHT11çš„å­˜åœ¨
-//è¿”å›0:å­˜åœ¨
+//µÈ´ıDHT11µÄ»ØÓ¦
+//·µ»Ø1:Î´¼ì²âµ½DHT11µÄ´æÔÚ
+//·µ»Ø0:´æÔÚ
 u8 DHT11_Check(void)    
 {   
-	u8 retry=0;//å®šä¹‰ä¸´æ—¶å˜é‡
+	u8 retry=0;//¶¨ÒåÁÙÊ±±äÁ¿
 	DHT11_IO_IN();    //SET INPUT 
-    if (GPIO_ReadInputDataBit(GPIO_DHT11,IO_DHT11)==1)//DHT11ä¼šæ‹‰ä½40~80us
+    if (GPIO_ReadInputDataBit(GPIO_DHT11,IO_DHT11)==1)//DHT11»áÀ­µÍ40~80us
 		{
 			return 0 ;
 		}else
@@ -51,32 +49,32 @@ u8 DHT11_Check(void)
 		delay(40) ;
 		return 1 ;
 }
-//ä»DHT11è¯»å–ä¸€ä¸ªä½
-//è¿”å›å€¼ï¼š1/0
+//´ÓDHT11¶ÁÈ¡Ò»¸öÎ»
+//·µ»ØÖµ£º1/0
 u8 DHT11_Read_Bit(void)  
 {
 	u8 retry=0;
-	while((GPIO_ReadInputDataBit(GPIO_DHT11,IO_DHT11)==1)&&retry<50)//ç­‰å¾…å˜ä¸ºä½ç”µå¹³
+	while((GPIO_ReadInputDataBit(GPIO_DHT11,IO_DHT11)==1)&&retry<50)//µÈ´ı±äÎªµÍµçÆ½
 	{
 		retry++;
 		delay(2);
 	}
-	if(retry>45)  return -1;//è¶…æ—¶æ£€æµ‹ ç»“æŸç¨‹åº
+	if(retry>45)  return -1;//³¬Ê±¼ì²â ½áÊø³ÌĞò
 	retry=0;
 	
-	while((GPIO_ReadInputDataBit(GPIO_DHT11,IO_DHT11)==0)&&retry<50)//ç­‰å¾…å˜é«˜ç”µå¹³
+	while((GPIO_ReadInputDataBit(GPIO_DHT11,IO_DHT11)==0)&&retry<50)//µÈ´ı±ä¸ßµçÆ½
 	{
 		retry++;
 		delay(2);
 	}
-	delay(40);//ç­‰å¾…40us
+	delay(40);//µÈ´ı40us
 	if(GPIO_ReadInputDataBit(GPIO_DHT11,IO_DHT11)==1)
 		return 1;
 	else 
 		return 0;   
 }
-//ä»DHT11è¯»å–ä¸€ä¸ªå­—èŠ‚
-//è¿”å›å€¼ï¼šè¯»åˆ°çš„æ•°æ®
+//´ÓDHT11¶ÁÈ¡Ò»¸ö×Ö½Ú
+//·µ»ØÖµ£º¶Áµ½µÄÊı¾İ
 u8 DHT11_Read_Byte(void)    
 {        
     u8 i,dat;
@@ -90,41 +88,41 @@ u8 DHT11_Read_Byte(void)
 
 }
 
-//ä»DHT11è¯»å–ä¸€æ¬¡æ•°æ®
-//temp:æ¸©åº¦å€¼(èŒƒå›´:0~50Â°)
-//humi:æ¹¿åº¦å€¼(èŒƒå›´:20%~90%)
-//è¿”å›å€¼ï¼š0,æ­£å¸¸;1,è¯»å–å¤±è´¥
+//´ÓDHT11¶ÁÈ¡Ò»´ÎÊı¾İ
+//temp:ÎÂ¶ÈÖµ(·¶Î§:0~50¡ã)
+//humi:Êª¶ÈÖµ(·¶Î§:20%~90%)
+//·µ»ØÖµ£º0,Õı³£;1,¶ÁÈ¡Ê§°Ü
 u8 DHT11_Read_Data(u8 *temp,u8 *humi)    
 {        
-  u8 buf[5];// æ¹¿åº¦å°æ•°æ•´æ•°ä¹‹ç±»ã€‚ã€‚ã€‚ã€‚ã€‚
+  u8 buf[5];// Êª¶ÈĞ¡ÊıÕûÊıÖ®Àà¡£¡£¡£¡£¡£
   u8 i;
   DHT11_Rst();
 	if(DHT11_Check()==0)
 	{
-		for(i=0;i<5;i++)//è¯»å–40ä½æ•°æ®
+		for(i=0;i<5;i++)//¶ÁÈ¡40Î»Êı¾İ
 		{
 				buf[i]=DHT11_Read_Byte();
 		}
-		if((buf[0]+buf[1]+buf[2]+buf[3])==buf[4])//æ ¡éªŒ
+		if((buf[0]+buf[1]+buf[2]+buf[3])==buf[4])//Ğ£Ñé
 		{
-				*humi=buf[0];//å¾—åˆ°æ¹¿åº¦
-				*temp=buf[2];//å¾—åˆ°æ¸©åº¦
+				*humi=buf[0];//µÃµ½Êª¶È
+				*temp=buf[2];//µÃµ½ÎÂ¶È
 		}
 		}else return 1;
 		return 0;    
 }
 
-//åˆå§‹åŒ–DHT11çš„IOå£ DQ åŒæ—¶æ£€æµ‹DHT11çš„å­˜åœ¨
+//³õÊ¼»¯DHT11µÄIO¿Ú DQ Í¬Ê±¼ì²âDHT11µÄ´æÔÚ
 
-//è¿”å›1:ä¸å­˜åœ¨
+//·µ»Ø1:²»´æÔÚ
 
-//è¿”å›0:å­˜åœ¨     
+//·µ»Ø0:´æÔÚ     
 
 void DHT11_Init(void)
 {     
  RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOC, ENABLE);
- DHT11_Rst();  //å¤ä½DHT11
- DHT11_Check();//ç­‰å¾…DHT11çš„å›åº”
+ DHT11_Rst();  //¸´Î»DHT11
+ DHT11_Check();//µÈ´ıDHT11µÄ»ØÓ¦
 }
 
 uint8_t DHT_ByteRead(unsigned char *dat)
@@ -162,8 +160,8 @@ uint8_t DHT_ByteRead(unsigned char *dat)
 //   u8 wd=0;      
 //   u8 sd=0;
 // 
-//   RCC_Configuration();//ç³»ç»Ÿæ—¶é’Ÿåˆå§‹åŒ–
-//   GPIO_Configuration();//ç«¯å£åˆå§‹åŒ–
+//   RCC_Configuration();//ÏµÍ³Ê±ÖÓ³õÊ¼»¯
+//   GPIO_Configuration();//¶Ë¿Ú³õÊ¼»¯
 //   USART_Configuration();
 //   NVIC_Configuration();
 // 
@@ -171,9 +169,9 @@ uint8_t DHT_ByteRead(unsigned char *dat)
 //   
 //   while(1)
 //   {
-//  DHT11_Read_Data(&wd,&sd);//è¯»å–æ¸©æ¹¿åº¦å€¼    
-//  printf("å½“å‰ç¯å¢ƒæ¸©åº¦: %d â„ƒ\r\n",wd);    
-//  printf("å½“å‰ç¯å¢ƒæ¹¿åº¦: %d %%\r\n",sd);    
+//  DHT11_Read_Data(&wd,&sd);//¶ÁÈ¡ÎÂÊª¶ÈÖµ    
+//  printf("µ±Ç°»·¾³ÎÂ¶È: %d ¡æ\r\n",wd);    
+//  printf("µ±Ç°»·¾³Êª¶È: %d %%\r\n",sd);    
 //  delay_ms(1000);
 //  delay_ms(1000);
 //   }
