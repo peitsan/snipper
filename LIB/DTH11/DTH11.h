@@ -3,9 +3,9 @@
 
    #include "stm32f10x.h"
 
-#define IO_DHT11           GPIO_Pin_15 //引入中间变量，方便移植
+#define IO_DHT11           GPIO_Pin_14 //引入中间变量，方便移植
 
-#define GPIO_DHT11         GPIOC    //引入中间变量，方便移植
+#define GPIO_DHT11         GPIOB    //引入中间变量，方便移植
 
 ////////////////////////////////////////////////////////// 
 

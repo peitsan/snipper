@@ -4,6 +4,7 @@
         "oled.h": "c",
         "dth11.h": "c",
         "stdio.h": "c",
-        "stm32f10x_conf.h": "c"
+        "stm32f10x_conf.h": "c",
+        "delay.h": "c"
     }
 }

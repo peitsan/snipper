@@ -121,7 +121,7 @@ u8 DHT11_Read_Data(u8 *temp,u8 *humi)
 
 void DHT11_Init(void)
 {     
- RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOC, ENABLE);
+ RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOB, ENABLE);
  DHT11_Rst();  //复位DHT11
  DHT11_Check();//等待DHT11的回应
 }

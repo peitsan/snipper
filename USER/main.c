@@ -5,37 +5,51 @@
 #include "Oled.h"
 //头文件引用
 
-#define key_set PBin(11)//设置按键
-#define key_plus PBin(12)//温湿度+
-#define key_sub PBin(13)//温湿度-
-#define motor_hum PBout(10)//加湿电机
-#define motor_fan PBout(14)//散热风扇
-#define beep PBout(15)//蜂鸣器
+// #define key_set PBin(11)//设置按键
+// #define key_plus PBin(12)//温湿度+
+// #define key_sub PBin(13)//温湿度-
+#define key_set PBin(10)//设置按键
+#define key_plus PBin(1)//温湿度+
+#define key_sub PBin(0)//温湿度-
+// #define motor_hum PBout(10)//加湿电机
+// #define motor_fan PBout(14)//散热风扇
+// #define beep PBout(15)//蜂鸣器
+#define motor_hum PAout(2)//加湿电机
+#define motor_fan PAout(1)//散热风扇
+#define beep PBout(12)//蜂鸣器
 //宏定义
 
 void OUTPUT_Init(void)
 { 
- GPIO_InitTypeDef  GPIO_InitStructure;
+ GPIO_InitTypeDef  GPIOA_InitStructure, GPIOB_InitStructure;
  	
- RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOB, ENABLE);	 //使能P端口时钟
-	
- GPIO_InitStructure.GPIO_Pin = GPIO_Pin_14|GPIO_Pin_15|GPIO_Pin_10;				 //IO输出端口配置
- GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP; 		 //推挽输出
- GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
- GPIO_Init(GPIOB, &GPIO_InitStructure);
- GPIO_SetBits(GPIOB,GPIO_Pin_14);						 //输出高
- GPIO_SetBits(GPIOB,GPIO_Pin_15);						 //输出高
- GPIO_SetBits(GPIOB,GPIO_Pin_10);						 //输出高
+//  RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOB, ENABLE);	 //使能P端口时钟
+//  RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA, ENABLE);	 //使能P端口时钟	
+//  GPIO_InitStructure.GPIO_Pin = GPIO_Pin_14|GPIO_Pin_15|GPIO_Pin_10;				 //IO输出端口配置
+ GPIOA_InitStructure.GPIO_Pin = GPIO_Pin_1|GPIO_Pin_2;				 //IO输出端口配置
+ GPIOA_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP; 		 //推挽输出
+ GPIOA_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
+
+ GPIOB_InitStructure.GPIO_Pin = GPIO_Pin_12| IO_DHT11;				 //IO输出端口配置
+ GPIOB_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP; 		 //推挽输出
+ GPIOB_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
+ GPIO_Init(GPIOA, &GPIOA_InitStructure);
+ GPIO_Init(GPIOB, &GPIOB_InitStructure);	
+
+ GPIO_SetBits(GPIOA,GPIO_Pin_2);						 //输出高
+ GPIO_SetBits(GPIOA,GPIO_Pin_1);						 //输出高
+ GPIO_SetBits(GPIOB,GPIO_Pin_12);						 //输出高
 }
+
 void KEY_Init(void)
 {
 	GPIO_InitTypeDef GPIO_InitStructure; //定义结构体变量	
 	RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOB,ENABLE);
 	
-	GPIO_InitStructure.GPIO_Pin=GPIO_Pin_11|GPIO_Pin_12|GPIO_Pin_13;
+	GPIO_InitStructure.GPIO_Pin=GPIO_Pin_10|GPIO_Pin_1|GPIO_Pin_0;
 	GPIO_InitStructure.GPIO_Mode=GPIO_Mode_IPD;	
 	GPIO_InitStructure.GPIO_Speed=GPIO_Speed_50MHz;
-	GPIO_Init(GPIOB,&GPIO_InitStructure);
+	GPIO_Init(GPIOB, &GPIO_InitStructure);
 }
 int main(void)
 {	 
@@ -48,7 +62,7 @@ int main(void)
 ////////////////////////////////////////////////////////////////////////////////// 	 
 
 	u8 temp = 0, hum = 0;
-	unsigned char buf[100] = { 0 };
+	char buf[100] = { 0 };
 	DELAY_Init();//下面都是初始化函数
 	OLED_Init() ; 	
 	DHT11_Init();
@@ -57,10 +71,11 @@ int main(void)
 	while(1)
 	{
 		DHT11_Read_Data(&temp, &hum);//温湿度读取
-		sprintf((char *)buf, "温度:%d C  ", temp);//整数转字符串 温度
-		OLED_ShowString(2, 1, buf);//字符串显示
-		sprintf((char *)buf, "湿度:%d   " , hum);//整数转字符串   湿度
-		OLED_ShowString(2, 3, buf);//字符串显示
+		// printf("temp:%d hum:%d", temp, hum);//串口打印
+		sprintf((char *)buf, "Temp:%d C", buf);//整数转字符串 温度
+		OLED_ShowString(1, 1, buf);//字符串显示
+		sprintf((char *)buf, "Humi:%d " , buf);//整数转字符串   湿度
+		OLED_ShowString(3, 1, buf);//字符串显示
 
 		if(key_set==1) //设置按键
 		{	
@@ -94,10 +109,10 @@ int main(void)
 				buf3--;		
 			if(buf3<1) buf3=1,OLED_Init();			
 		}
-		sprintf((char *)buf, "预设:%d", buf2);//整数转字符串 温度
-		OLED_ShowString(80, 1, buf);//字符串显示
-		sprintf((char *)buf, "预设:%d" , buf3);//整数转字符串   湿度
-		OLED_ShowString(80, 3, buf);//字符串显示
+		sprintf((char *)buf, "Temp Set:%d ", buf2);//整数转字符串 温度
+		OLED_ShowString(2, 1, buf);//字符串显示
+		sprintf((char *)buf, "Humi Set:%d ", buf3);//整数转字符串   湿度
+		OLED_ShowString(4, 1, buf);//字符串显示
 
 			
 		if(temp>buf2||hum<buf3)  beep=0;//温度过高或者湿度过低 开启蜂鸣器提醒
@@ -108,13 +123,13 @@ int main(void)
 		else motor_hum=1;
 		if(buf1==0)//显示设置状态
 		{
-			sprintf((char *)buf, "预设温度:%d", 1);//整数转字符串 温度
-			OLED_ShowString(30, 6, buf);//字符串显示
+			sprintf((char *)buf, "Temp Set:%d C", 1);//整数转字符串 温度
+			OLED_ShowString(2, 1, buf);//字符串显示
 		}
 		else //显示设置状态
 		{
-			sprintf((char *)buf, "预设湿度:%d ", 1);//整数转字符串 湿度
-			OLED_ShowString(30, 6, buf);//字符串显示
+			sprintf((char *)buf, "Humi Set:%d ", 1);//整数转字符串 湿度
+			OLED_ShowString(4, 1, buf);//字符串显示
 		}
 		
 	}
