@@ -22,7 +22,8 @@
 
 #define key_status_once 1//单击状态
 #define key_status_double 2 //双击状态
-#define key_status_long 2 //长按状态
+#define key_status_long 3 //长按状态
+
 //宏定义
 
 
@@ -61,47 +62,48 @@ void KEY_Init(void)
 
 u8 key_setting(void)
 {
-	u8 b,c;
-	if(key_set==0) //设置按键按下
-	{	
-		c = 0;
-		delay_ms(20);
-		if(key_set==0) //设置按键消抖
-		{	
-			while((key_set==0)&&(c < long_press_time))
-			{
-				c ++;
-				delay_ms(10);
-			}
-			if( c >= long_press_time) //长按
-			{
-				return key_status_long;
-			}
-			else //短按
-			{
-				for(b = 0; b < key_speed; b++)
-				{
-					delay_ms(20);
-					if(key_set==0) //双击按键消抖
-					{
-						delay_ms(10);
-						if(key_set==0) //双击按键消抖
-						{
-							return key_status_double;
-						}
-					}
-				}
-				return key_status_once;
-			}
-		}
-	}
+    u8 b, c;
+    if(key_set == 0) //设置按键按下
+    {
+        delay_ms(20); //延时去抖动
+        if(key_set == 0) //设置按键消抖
+        {
+            c = 0;
+            while(key_set == 0) //按键被按下，开始计数
+            {
+                c++;
+                delay_ms(10);
+                if(c >= long_press_time) //长按
+                {
+                    return key_status_long;
+                }
+            }
+            //按键已释放
+            for(b = 0; b < key_speed; b++)
+            {
+                delay_ms(20);
+                if(key_set == 0) //第二次按键操作
+                {
+                    delay_ms(10);
+                    if(key_set == 0) //第二次按键操作消抖
+                    {
+                        while(key_set == 0); //等待按键释放
+                        return key_status_double; //双击
+                    }
+                }
+            }
+            //没有第二次按键操作，返回单击
+            return key_status_once;
+        }
+    }
+    //按键没有被按下，返回0
+    return 0;
 }
 
 int main(void)
 {	 
 		 
-
-	u8 temp = 0, hum = 0;
+	u8 temp = 0, hum = 0, key_status;
 	int buf1=0,buf2=30,buf3=20;
 ////////////////////////////////////////////////////////////////////////////////// 	 
 // 参数说明：
@@ -122,38 +124,45 @@ int main(void)
 		Read_DHT11(&data);
 		// printf("temp:%d hum:%d", temp, hum);//串口打印
 		// sprintf((char *)buf, "Temp:%d.%d C", data.temp_int, data.temp_deci);//整数转字符串 温度
-		sprintf((char *)buf, "Temp:%dC", temp);//整数转字符串 温度
+		sprintf((char *)buf, "Temp:%d C", temp);//整数转字符串 温度
 		OLED_ShowString(1, 1, buf);//字符串显示
 		// sprintf((char *)buf, "Humi:%d.%d", data.humi_int, data.humi_deci);//整数转字符串   湿度
-		sprintf((char *)buf, "Humi:%d",temp);//整数转字符串   湿度
+		sprintf((char *)buf, "Humi:%d %%",temp);//整数转字符串   湿度
 		OLED_ShowString(3, 1, buf);//字符串显示
 
-		u8 key_status = key_setting();
-		switch(key_status)
-		{
-			case key_status_once:
-				beep=1;
-				buf1++;
-				if(buf1>3) buf1=0;
-				delay_ms(10);
-				beep=0;
-			case key_status_double:
-				beep=1;
-				buf1++;
-				if(buf1>3) buf1=0;
-				delay_ms(10);
-				beep=0;
-
-		}
+	   key_status = key_setting();
+		  switch(key_status)
+       {
+           case key_status_once:
+               beep=1;
+               buf1++;
+               if(buf1>2) buf1=0;
+               delay_ms(100);
+               beep=0;
+               break;
+           case key_status_double:
+               beep=1;
+               buf1++;
+              // if(buf1!=3) buf1;
+              //delay_ms(10);
+               beep=0;
+               break;
+           case key_status_long:
+               // handle long press
+               break;
+		   default : break;
+       }
 		if(key_plus==0 && buf1==1) //期望温度值+1
 		{		
 			while(key_plus!=0); 
 			{	buf2++;             //防抖
 				beep=1; 
-				delay_ms(30);
+				
 			}
+			delay_ms(30);
 			beep=0;
-			if(buf2>100) buf2=100,OLED_Init();			
+			if(buf2>100) buf2=100;	
+			OLED_Init();		
 		}
 		if(key_sub==0&&buf1==1) //期望温度值-1
 		{		
@@ -161,9 +170,10 @@ int main(void)
 			{	buf2--;             //防抖
 				beep=1; 
 			}
-			delay_ms(10);
+			delay_ms(30);
 			beep=0;
-			if(buf2<1) buf2=1,OLED_Init();			
+			if(buf2<1) buf2=1;
+			OLED_Init();		
 		}
 		
 		if(key_plus==0&&buf1==2) //期望湿度值+1
@@ -172,9 +182,10 @@ int main(void)
 			{	buf3++;             //防抖
 				beep=1; 
 			}	
-			delay_ms(10);
+			delay_ms(30);
 			beep=0;
-			if(buf3>100) buf3=100,OLED_Init();			
+			if(buf3>100) buf3=100;	
+			OLED_Init();	
 		}
 
 		if(key_sub==0&&buf1==2) //期望湿度值-1
@@ -183,13 +194,14 @@ int main(void)
 			{	buf3--;             //防抖
 				beep=1; 
 			}
-			delay_ms(10);
+			delay_ms(30);
 			beep=0;
-			if(buf3<1) buf3=1,OLED_Init();			
+			if(buf3<1) buf3=1;	
+			OLED_Init();		
 		}
-		sprintf((char *)buf, "Tset:%d", buf2);//整数转字符串 温度
+		sprintf((char *)buf, "Tset:%d C", buf2);//整数转字符串 温度
 		OLED_ShowString(2, 1, buf);//字符串显示
-		sprintf((char *)buf, "Hset:%d", buf3);//整数转字符串   湿度
+		sprintf((char *)buf, "Hset:%d %%", buf3);//整数转字符串   湿度
 		OLED_ShowString(4, 1, buf);//字符串显示
 
 			
@@ -207,12 +219,12 @@ int main(void)
 		else motor_hum=1;
 		if(buf1==1)//显示设置状态
 		{
-			sprintf((char *)buf, "Tset:%dC", 1);//整数转字符串 温度
+			sprintf((char *)buf, "Tset:%d C", buf2);//整数转字符串 温度
 			OLED_ShowString(2, 1, buf);//字符串显示
 		}
 		else if(buf1==2) //显示设置状态
 		{
-			sprintf((char *)buf, "Hset:%d ", 1);//整数转字符串 湿度
+			sprintf((char *)buf, "Hset:%d %%", buf3);//整数转字符串 湿度
 			OLED_ShowString(4, 1, buf);//字符串显示
 		}
 
