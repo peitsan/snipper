@@ -7,9 +7,9 @@
 ..\obj\misc.o: ..\USER\stm32f10x_conf.h
 ..\obj\misc.o: ..\LIB\TIM_TIMER\timer.h
 ..\obj\misc.o: ..\LIB\DTH11\DTH11.h
-..\obj\misc.o: ..\USER\stm32f10x.h
 ..\obj\misc.o: ..\SYSTEM\delay\delay.h
 ..\obj\misc.o: ..\SYSTEM\sys\sys.h
+..\obj\misc.o: ..\USER\stm32f10x.h
 ..\obj\misc.o: ..\LIB\OLED\Oled.h
 ..\obj\misc.o: ..\STM32F10x_FWLib\inc\stm32f10x_adc.h
 ..\obj\misc.o: ..\STM32F10x_FWLib\inc\stm32f10x_dma.h

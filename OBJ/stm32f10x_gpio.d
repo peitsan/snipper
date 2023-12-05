@@ -7,9 +7,9 @@
 ..\obj\stm32f10x_gpio.o: ..\USER\stm32f10x_conf.h
 ..\obj\stm32f10x_gpio.o: ..\LIB\TIM_TIMER\timer.h
 ..\obj\stm32f10x_gpio.o: ..\LIB\DTH11\DTH11.h
-..\obj\stm32f10x_gpio.o: ..\USER\stm32f10x.h
 ..\obj\stm32f10x_gpio.o: ..\SYSTEM\delay\delay.h
 ..\obj\stm32f10x_gpio.o: ..\SYSTEM\sys\sys.h
+..\obj\stm32f10x_gpio.o: ..\USER\stm32f10x.h
 ..\obj\stm32f10x_gpio.o: ..\LIB\OLED\Oled.h
 ..\obj\stm32f10x_gpio.o: ..\STM32F10x_FWLib\inc\stm32f10x_adc.h
 ..\obj\stm32f10x_gpio.o: ..\STM32F10x_FWLib\inc\stm32f10x_dma.h

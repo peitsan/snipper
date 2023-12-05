@@ -1,6 +1,5 @@
 #include "stm32f10x.h"
 #include "stm32f10x_conf.h"
-#include "dth11.h"
 #include "stdio.h"
 #include "Oled.h"
 //头文件引用
@@ -39,7 +38,7 @@ void OUTPUT_Init(void)
  GPIOA_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP; 		 //推挽输出
  GPIOA_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
 
- GPIOB_InitStructure.GPIO_Pin = GPIO_Pin_12| IO_DHT11;				 //IO输出端口配置
+ GPIOB_InitStructure.GPIO_Pin = GPIO_Pin_12| DHT11_Out_Pin;				 //IO输出端口配置
  GPIOB_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP; 		 //推挽输出
  GPIOB_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
  GPIO_Init(GPIOA, &GPIOA_InitStructure);
@@ -115,19 +114,20 @@ int main(void)
 	unsigned char buf[127] = { 0 };
 	DELAY_Init();//下面都是初始化函数
 	OLED_Init() ; 	
-	DHT11_Init();
+	//DHT11_GPIO_Config();
+	//DHT11_Mode_Out_PP();
 	KEY_Init();
 	OUTPUT_Init();
 	while(1)
 	{
-		DHT11_Read_Data(&temp, &hum);//温湿度读取
+		//DHT11_Read_Data(&temp, &hum);//温湿度读取
 		Read_DHT11(&data);
 		// printf("temp:%d hum:%d", temp, hum);//串口打印
-		// sprintf((char *)buf, "Temp:%d.%d C", data.temp_int, data.temp_deci);//整数转字符串 温度
-		sprintf((char *)buf, "Temp:%d C", temp);//整数转字符串 温度
+		 sprintf((char *)buf, "Temp:%d.%d C", data.temp_int, data.temp_deci);//整数转字符串 温度
+		//sprintf((char *)buf, "Temp:%d C", temp);//整数转字符串 温度
 		OLED_ShowString(1, 1, buf);//字符串显示
-		// sprintf((char *)buf, "Humi:%d.%d", data.humi_int, data.humi_deci);//整数转字符串   湿度
-		sprintf((char *)buf, "Humi:%d %%",temp);//整数转字符串   湿度
+		sprintf((char *)buf, "Humi:%d.%d %%", data.humi_int, data.humi_deci);//整数转字符串   湿度
+		//sprintf((char *)buf, "Humi:%d %%",temp);//整数转字符串   湿度
 		OLED_ShowString(3, 1, buf);//字符串显示
 
 	   key_status = key_setting();

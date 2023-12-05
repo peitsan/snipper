@@ -1,5 +1,4 @@
 ..\obj\dth11.o: ..\LIB\DTH11\DTH11.c
-..\obj\dth11.o: ..\LIB\DTH11\DTH11.h
 ..\obj\dth11.o: ..\USER\stm32f10x.h
 ..\obj\dth11.o: ..\CORE\core_cm3.h
 ..\obj\dth11.o: F:\Program Files\Keil\ARM\ARMCC\Bin\..\include\stdint.h
