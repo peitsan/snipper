@@ -13,11 +13,11 @@
 
 #define DHT11_DQ_Low     GPIO_ResetBits(GPIO_DHT11,IO_DHT11)
 
-#define DHT11_Out_Pin		GPIO_Pin_0
-#define DHT11_Out_RCC		RCC_APB2Periph_GPIOA
+#define DHT11_Out_Pin		GPIO_Pin_14
+#define DHT11_Out_RCC		RCC_APB2Periph_GPIOB
 
-////////////////////////////// A¿Ú
-#define DHT11		GPIOA
+////////////////////////////// -B¿Ú
+#define DHT11		GPIOB
 
 #define HIGH  1
 #define LOW   0
