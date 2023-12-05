@@ -10,6 +10,7 @@
         "usart.h": "c",
         "sys.h": "c",
         "stdio.h": "c",
-        "random": "c"
+        "random": "c",
+        "pwm.h": "c"
     }
 }

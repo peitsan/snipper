@@ -2,17 +2,12 @@
 #include "stm32f10x_conf.h"
 #include "stdio.h"
 #include "Oled.h"
+#include "PWM.h"
 //头文件引用
 
-// #define key_set PBin(11)//设置按键
-// #define key_plus PBin(12)//温湿度+
-// #define key_sub PBin(13)//温湿度-
 #define key_set PBin(10)//设置按键
 #define key_plus PBin(1)//温湿度+
 #define key_sub PBin(0)//温湿度-
-// #define motor_hum PBout(10)//加湿电机
-// #define motor_fan PBout(14)//散热风扇
-// #define beep PBout(15)//蜂鸣器
 #define motor_hum PAout(2)//加湿电机
 #define motor_fan PAout(1)//散热风扇
 #define beep PBout(12)//蜂鸣器
@@ -22,7 +17,6 @@
 #define key_status_once 1//单击状态
 #define key_status_double 2 //双击状态
 #define key_status_long 3 //长按状态
-
 //宏定义
 
 
@@ -114,10 +108,9 @@ int main(void)
 	unsigned char buf[127] = { 0 };
 	DELAY_Init();//下面都是初始化函数
 	OLED_Init() ; 	
-	//DHT11_GPIO_Config();
-	//DHT11_Mode_Out_PP();
 	KEY_Init();
 	OUTPUT_Init();
+	PWM_Init();
 	while(1)
 	{
 		//DHT11_Read_Data(&temp, &hum);//温湿度读取
@@ -143,8 +136,6 @@ int main(void)
            case key_status_double:
                beep=1;
                buf1++;
-              // if(buf1!=3) buf1;
-              //delay_ms(10);
                beep=0;
                break;
            case key_status_long:
@@ -203,21 +194,23 @@ int main(void)
 		OLED_ShowString(2, 1, buf);//字符串显示
 		sprintf((char *)buf, "Hset:%d %%", buf3);//整数转字符串   湿度
 		OLED_ShowString(4, 1, buf);//字符串显示
-
-			
-		// if(data.temp_int>buf2||data.humi_int<buf3)  beep=1;//温度过高或者湿度过低 开启蜂鸣器提醒
-		// else beep=0;
-		// if(data.temp_int>buf2) motor_fan=0;//温度大于设置值  开启散热
-		// else motor_fan=1;
-		// if(data.humi_int<buf3) motor_hum=0;//湿度过低  开启加湿
-		// else motor_hum=1;
-		if(temp >buf2||hum <buf3)  beep=0;//温度过高或者湿度过低 开启蜂鸣器提醒
+		if(data.temp_int + (0.1 * data.temp_deci) >buf2) beep=1,delay_ms(50),beep=0,delay_ms(20),beep=1,delay_ms(20),beep=0;//温度过高或者湿度过低 开启蜂鸣器提醒
+		else if(data.humi_int + (0.1 * data.humi_deci) <buf3) beep=1,delay_ms(10),beep=0,delay_ms(10),beep=1,delay_ms(10),beep=0;
+		else if(data.temp_int + (0.1 * data.temp_deci) >buf2 && data.humi_int + (0.1 * data.humi_deci) <buf3) beep=1;
 		else beep=0;
-		if(temp >buf2) motor_fan=0;//温度大于设置值  开启散热
-		else motor_fan=1;
-		if(hum<buf3) motor_hum=0;//湿度过低  开启加湿
+		if(data.temp_int + (0.1 * data.temp_deci) >buf2) //温度大于设置值  开启散热 PWM調節
+		{
+			PWM_Set_fan(data.temp_int + (0.1 * data.temp_deci), buf2);
+			PWM_Set_heat(0);
+		}		
+		else
+		{
+			PWM_Set_fan(0, 80);//关闭风扇
+			PWM_Set_heat(1);//,开启加热电阻
+		}
+		if(data.humi_int + (0.1 * data.humi_deci) <buf3) motor_hum=0;//湿度过低  开启加湿
 		else motor_hum=1;
-		if(buf1==1)//显示设置状态
+		if(buf1==1)//显示设置数值状态
 		{
 			sprintf((char *)buf, "Tset:%d C", buf2);//整数转字符串 温度
 			OLED_ShowString(2, 1, buf);//字符串显示

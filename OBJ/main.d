@@ -20,3 +20,4 @@
 ..\obj\main.o: ..\STM32F10x_FWLib\inc\stm32f10x_usart.h
 ..\obj\main.o: ..\STM32F10x_FWLib\inc\misc.h
 ..\obj\main.o: F:\Program Files\Keil\ARM\ARMCC\Bin\..\include\stdio.h
+..\obj\main.o: ..\LIB\PWM\PWM.h

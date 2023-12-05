@@ -22,113 +22,117 @@ Dialog DLL:      TARMSTM.DLL V1.64.0.0
  
 <h2>Project:</h2>
 a:\github\snipper\USER\USMART.uvprojx
-Project File Date:  12/01/2023
+Project File Date:  12/05/2023
 
 <h2>Output:</h2>
 *** Using Compiler 'V5.04 update 1 (build 49)', folder: 'F:\Program Files\Keil\ARM\ARMCC\Bin'
 Build target 'Target 1'
-compiling usart.c...
-..\LIB\DTH11\DTH11.h(36): warning:  #1-D: last line of file ends without a newline
-  #endif
-..\SYSTEM\usart\usart.c: 1 warning, 0 errors
-compiling delay.c...
-..\LIB\DTH11\DTH11.h(36): warning:  #1-D: last line of file ends without a newline
-  #endif
-..\SYSTEM\delay\delay.c: 1 warning, 0 errors
-assembling startup_stm32f10x_hd.s...
-compiling core_cm3.c...
-compiling stm32f10x_it.c...
-..\LIB\DTH11\DTH11.h(36): warning:  #1-D: last line of file ends without a newline
-  #endif
-stm32f10x_it.c: 1 warning, 0 errors
-compiling stm32f10x_fsmc.c...
-..\LIB\DTH11\DTH11.h(36): warning:  #1-D: last line of file ends without a newline
-  #endif
-..\STM32F10x_FWLib\src\stm32f10x_fsmc.c: 1 warning, 0 errors
-compiling sys.c...
-..\LIB\DTH11\DTH11.h(36): warning:  #1-D: last line of file ends without a newline
-  #endif
-..\SYSTEM\sys\sys.c: 1 warning, 0 errors
 compiling Oled.c...
 ..\LIB\DTH11\DTH11.h(36): warning:  #1-D: last line of file ends without a newline
   #endif
 ..\LIB\OLED\Oled.c: 1 warning, 0 errors
-compiling system_stm32f10x.c...
+compiling main.c...
 ..\LIB\DTH11\DTH11.h(36): warning:  #1-D: last line of file ends without a newline
   #endif
-system_stm32f10x.c: 1 warning, 0 errors
-compiling misc.c...
+main.c(121): warning:  #167-D: argument of type "unsigned char *" is incompatible with parameter of type "char *"
+  		OLED_ShowString(1, 1, buf);//×Ö·û´®ÏÔÊ¾
+main.c(124): warning:  #167-D: argument of type "unsigned char *" is incompatible with parameter of type "char *"
+  		OLED_ShowString(3, 1, buf);//×Ö·û´®ÏÔÊ¾
+main.c(194): warning:  #167-D: argument of type "unsigned char *" is incompatible with parameter of type "char *"
+  		OLED_ShowString(2, 1, buf);//×Ö·û´®ÏÔÊ¾
+main.c(196): warning:  #167-D: argument of type "unsigned char *" is incompatible with parameter of type "char *"
+  		OLED_ShowString(4, 1, buf);//×Ö·û´®ÏÔÊ¾
+main.c(216): warning:  #167-D: argument of type "unsigned char *" is incompatible with parameter of type "char *"
+  			OLED_ShowString(2, 1, buf);//×Ö·û´®ÏÔÊ¾
+main.c(221): warning:  #167-D: argument of type "unsigned char *" is incompatible with parameter of type "char *"
+  			OLED_ShowString(4, 1, buf);//×Ö·û´®ÏÔÊ¾
+main.c(99): warning:  #177-D: variable "temp" was declared but never referenced
+  	u8 temp = 0, hum = 0, key_status;
+main.c(99): warning:  #177-D: variable "hum" was declared but never referenced
+  	u8 temp = 0, hum = 0, key_status;
+main.c: 9 warnings, 0 errors
+assembling startup_stm32f10x_hd.s...
+compiling usart.c...
 ..\LIB\DTH11\DTH11.h(36): warning:  #1-D: last line of file ends without a newline
   #endif
-..\STM32F10x_FWLib\src\misc.c: 1 warning, 0 errors
+..\SYSTEM\usart\usart.c: 1 warning, 0 errors
 compiling adc.c...
 ..\LIB\DTH11\DTH11.h(36): warning:  #1-D: last line of file ends without a newline
   #endif
 adc.c: 1 warning, 0 errors
-compiling main.c...
+compiling core_cm3.c...
+compiling misc.c...
 ..\LIB\DTH11\DTH11.h(36): warning:  #1-D: last line of file ends without a newline
   #endif
-main.c(128): warning:  #167-D: argument of type "unsigned char *" is incompatible with parameter of type "char *"
-  		OLED_ShowString(1, 1, buf);//×Ö·û´®ÏÔÊ¾
-main.c(131): warning:  #167-D: argument of type "unsigned char *" is incompatible with parameter of type "char *"
-  		OLED_ShowString(3, 1, buf);//×Ö·û´®ÏÔÊ¾
-main.c(203): warning:  #167-D: argument of type "unsigned char *" is incompatible with parameter of type "char *"
-  		OLED_ShowString(2, 1, buf);//×Ö·û´®ÏÔÊ¾
-main.c(205): warning:  #167-D: argument of type "unsigned char *" is incompatible with parameter of type "char *"
-  		OLED_ShowString(4, 1, buf);//×Ö·û´®ÏÔÊ¾
-main.c(223): warning:  #167-D: argument of type "unsigned char *" is incompatible with parameter of type "char *"
-  			OLED_ShowString(2, 1, buf);//×Ö·û´®ÏÔÊ¾
-main.c(228): warning:  #167-D: argument of type "unsigned char *" is incompatible with parameter of type "char *"
-  			OLED_ShowString(4, 1, buf);//×Ö·û´®ÏÔÊ¾
-main.c: 7 warnings, 0 errors
-compiling stm32f10x_flash.c...
+..\STM32F10x_FWLib\src\misc.c: 1 warning, 0 errors
+compiling delay.c...
 ..\LIB\DTH11\DTH11.h(36): warning:  #1-D: last line of file ends without a newline
   #endif
-..\STM32F10x_FWLib\src\stm32f10x_flash.c: 1 warning, 0 errors
-compiling stm32f10x_gpio.c...
-..\LIB\DTH11\DTH11.h(36): warning:  #1-D: last line of file ends without a newline
-  #endif
-..\STM32F10x_FWLib\src\stm32f10x_gpio.c: 1 warning, 0 errors
+..\SYSTEM\delay\delay.c: 1 warning, 0 errors
 compiling stm32f10x_rcc.c...
 ..\LIB\DTH11\DTH11.h(36): warning:  #1-D: last line of file ends without a newline
   #endif
 ..\STM32F10x_FWLib\src\stm32f10x_rcc.c: 1 warning, 0 errors
+compiling system_stm32f10x.c...
+..\LIB\DTH11\DTH11.h(36): warning:  #1-D: last line of file ends without a newline
+  #endif
+system_stm32f10x.c: 1 warning, 0 errors
+compiling sys.c...
+..\LIB\DTH11\DTH11.h(36): warning:  #1-D: last line of file ends without a newline
+  #endif
+..\SYSTEM\sys\sys.c: 1 warning, 0 errors
+compiling stm32f10x_flash.c...
+..\LIB\DTH11\DTH11.h(36): warning:  #1-D: last line of file ends without a newline
+  #endif
+..\STM32F10x_FWLib\src\stm32f10x_flash.c: 1 warning, 0 errors
+compiling stm32f10x_it.c...
+..\LIB\DTH11\DTH11.h(36): warning:  #1-D: last line of file ends without a newline
+  #endif
+stm32f10x_it.c: 1 warning, 0 errors
+compiling stm32f10x_gpio.c...
+..\LIB\DTH11\DTH11.h(36): warning:  #1-D: last line of file ends without a newline
+  #endif
+..\STM32F10x_FWLib\src\stm32f10x_gpio.c: 1 warning, 0 errors
+compiling stm32f10x_fsmc.c...
+..\LIB\DTH11\DTH11.h(36): warning:  #1-D: last line of file ends without a newline
+  #endif
+..\STM32F10x_FWLib\src\stm32f10x_fsmc.c: 1 warning, 0 errors
 compiling stm32f10x_tim.c...
 ..\LIB\DTH11\DTH11.h(36): warning:  #1-D: last line of file ends without a newline
   #endif
 ..\STM32F10x_FWLib\src\stm32f10x_tim.c: 1 warning, 0 errors
-compiling stm32f10x_usart.c...
-..\LIB\DTH11\DTH11.h(36): warning:  #1-D: last line of file ends without a newline
-  #endif
-..\STM32F10x_FWLib\src\stm32f10x_usart.c: 1 warning, 0 errors
-compiling stm32f10x_adc.c...
-..\LIB\DTH11\DTH11.h(36): warning:  #1-D: last line of file ends without a newline
-  #endif
-..\STM32F10x_FWLib\src\stm32f10x_adc.c: 1 warning, 0 errors
-compiling stm32f10x_dac.c...
-..\LIB\DTH11\DTH11.h(36): warning:  #1-D: last line of file ends without a newline
-  #endif
-..\STM32F10x_FWLib\src\stm32f10x_dac.c: 1 warning, 0 errors
-compiling stm32f10x_dma.c...
-..\LIB\DTH11\DTH11.h(36): warning:  #1-D: last line of file ends without a newline
-  #endif
-..\STM32F10x_FWLib\src\stm32f10x_dma.c: 1 warning, 0 errors
 compiling DTH11.c...
 ..\LIB\DTH11\DTH11.h(36): warning:  #1-D: last line of file ends without a newline
   #endif
 ..\LIB\DTH11\DTH11.c(106): warning:  #1-D: last line of file ends without a newline
   }
 ..\LIB\DTH11\DTH11.c: 2 warnings, 0 errors
+compiling stm32f10x_dac.c...
+..\LIB\DTH11\DTH11.h(36): warning:  #1-D: last line of file ends without a newline
+  #endif
+..\STM32F10x_FWLib\src\stm32f10x_dac.c: 1 warning, 0 errors
 compiling Oled.c...
 ..\LIB\DTH11\DTH11.h(36): warning:  #1-D: last line of file ends without a newline
   #endif
 ..\LIB\OLED\Oled.c: 1 warning, 0 errors
+compiling stm32f10x_dma.c...
+..\LIB\DTH11\DTH11.h(36): warning:  #1-D: last line of file ends without a newline
+  #endif
+..\STM32F10x_FWLib\src\stm32f10x_dma.c: 1 warning, 0 errors
+compiling stm32f10x_adc.c...
+..\LIB\DTH11\DTH11.h(36): warning:  #1-D: last line of file ends without a newline
+  #endif
+..\STM32F10x_FWLib\src\stm32f10x_adc.c: 1 warning, 0 errors
+compiling stm32f10x_usart.c...
+..\LIB\DTH11\DTH11.h(36): warning:  #1-D: last line of file ends without a newline
+  #endif
+..\STM32F10x_FWLib\src\stm32f10x_usart.c: 1 warning, 0 errors
 linking...
 ..\OBJ\ADC.axf: Warning: L6304W: Duplicate input file ..\obj\oled_1.o ignored.
-Program Size: Code=7308 RO-data=1856 RW-data=52 ZI-data=1836  
+Program Size: Code=13468 RO-data=1856 RW-data=52 ZI-data=1836  
 Finished: 0 information, 1 warning and 0 error messages.
 FromELF: creating hex file...
-"..\OBJ\ADC.axf" - 0 Error(s), 28 Warning(s).
+"..\OBJ\ADC.axf" - 0 Error(s), 30 Warning(s).
 
 <h2>Software Packages used:</h2>
 
@@ -142,7 +146,7 @@ Package Vendor: Keil
   F:\keil5 MDK\Keil\STM32F1xx_DFP\2.4.0\Device\Include
 
 <h2>Collection of Component Files used:</h2>
-Build Time Elapsed:  00:00:02
+Build Time Elapsed:  00:00:04
 </pre>
 </body>
 </html>
