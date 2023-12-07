@@ -21,7 +21,7 @@
 //宏定义
 
 u8 temp = 0, hum = 0, key_status;
-	int buf1=0,buf2=20,buf3=70;
+	int buf1=0,buf2=19,buf3=56;
 ////////////////////////////////////////////////////////////////////////////////// 	 
 // 参数说明：
 // buf1:控制启动开关 0：锁定 1:温度  2:湿度
@@ -30,12 +30,13 @@ u8 temp = 0, hum = 0, key_status;
 ////////////////////////////////////////////////////////////////////////////////// 
 	DHT11_Data_TypeDef data;
 	char buf[127] = { 0 };
+	int motor_hum_trigger = 0; //加湿模式切换
 //全局变量
 
 
 void OUTPUT_Init(void)
 { 
- GPIO_InitTypeDef  GPIOA_InitStructure, GPIOB_InitStructure;
+ GPIO_InitTypeDef  GPIOA_InitStructure, GPIOB_InitStructure, GPIOH_InitStructure;
  	
 //  RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOB, ENABLE);	 //使能P端口时钟
 //  RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA, ENABLE);	 //使能P端口时钟	
@@ -44,16 +45,22 @@ void OUTPUT_Init(void)
  GPIOA_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP; 		 //推挽输出
  GPIOA_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
 
- GPIOB_InitStructure.GPIO_Pin = GPIO_Pin_12| GPIO_Pin_13 | DHT11_Out_Pin;				 //IO输出端口配置
+ GPIOB_InitStructure.GPIO_Pin = GPIO_Pin_12| DHT11_Out_Pin |GPIO_Pin_13;				 //IO输出端口配置
  GPIOB_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP; 		 //推挽输出
  GPIOB_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
+
+ 
+//  GPIOH_InitStructure.GPIO_Pin = GPIO_Pin_13;				 //IO输出端口配置
+//  GPIOH_InitStructure.GPIO_Mode = GPIO_Mode_IPD; 		 //下降沿触发输入
+//  GPIOH_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
  GPIO_Init(GPIOA, &GPIOA_InitStructure);
  GPIO_Init(GPIOB, &GPIOB_InitStructure);	
+//  GPIO_Init(GPIOB, &GPIOH_InitStructure);
 
  GPIO_SetBits(GPIOA,GPIO_Pin_2);						 //输出高
  GPIO_SetBits(GPIOA,GPIO_Pin_1);						 //输出高
  GPIO_SetBits(GPIOB,GPIO_Pin_12);						 //输出高
- GPIO_SetBits(GPIOB,GPIO_Pin_13);
+ GPIO_ResetBits(GPIOB,GPIO_Pin_13);						 //输出低，将PB13设置为输出低电平 给加湿器提供信号
 }
 
 void KEY_Init(void)
@@ -105,10 +112,24 @@ u8 key_setting(void)
     //按键没有被按下，返回0
     return 0;
 }
-void refresh(void){
+void hum_on(void){
+	if (motor_hum_trigger % 3 == 0) { // 七彩模式
+          			  motor_hum=1,delay_ms(1000),motor_hum=0,delay_ms(1000);motor_hum=1;
+    }else if (motor_hum_trigger % 3 == 1) { // 七彩模式
+          			  motor_hum=1;
+    }	
+		motor_hum_trigger ++;
+}
+void hum_off(void){
+	if (motor_hum_trigger % 3 != 0) { // 七彩模式
+          			   motor_hum=0;
+    }
+		motor_hum_trigger = 0;
+}
+void refres h(void){
 		Read_DHT11(&data);
 	    if(((data.temp_int + 0.1 * data.temp_deci) > buf2) && ((data.humi_int + 0.1 * data.humi_deci) >buf3)) {
-				motor_hum=0;
+				hum_off();
 				motor_fan=1;
 				motor_heat=0;
 				PWM_Set_fan(data.temp_int, buf2); //开风扇
@@ -117,14 +138,14 @@ void refresh(void){
 		}
 		else if(((data.temp_int + 0.1 * data.temp_deci) < buf2) && ((data.humi_int + 0.1 * data.humi_deci) >buf3))  {	
 				beep=0;
-				motor_hum=0;
-				motor_fan=0;
+				hum_off();
+				motor_fan=1;
 				motor_heat=1;
-			 	// PWM_Set_fan(0, buf2);//关闭风扇
+			 	PWM_Set_fan(data.humi_deci, buf3);
 			    PWM_Set_heat(1);//,开启加热电阻
 		}
 		else if(((data.temp_int + 0.1 * data.temp_deci) < buf2) && ((data.humi_int + 0.1 * data.humi_deci) < buf3)) {
-				motor_hum=1,delay_ms(50),motor_hum=0,delay_ms(50);motor_hum=1,delay_ms(50),motor_hum=0,delay_ms(50);
+				hum_on();
 				motor_fan=0;
 				motor_heat=1;
 				PWM_Set_fan(0, buf2);//关闭风扇
@@ -132,7 +153,7 @@ void refresh(void){
 				beep = 0;
 		}
 		else if (((data.temp_int + 0.1 * data.temp_deci) > buf2) && ((data.humi_int + 0.1 * data.humi_deci) < buf3)){
-				motor_hum=1,delay_ms(50),motor_hum=0,delay_ms(50);motor_hum=1,delay_ms(50),motor_hum=0,delay_ms(50);
+				hum_on();
 				motor_fan=1;
 				motor_heat=0;
 				PWM_Set_fan(data.temp_int, buf2);

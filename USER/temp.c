@@ -111,14 +111,10 @@ int main(void)
     PWM_Init();
 	while(1)
 	{
-		//DHT11_Read_Data(&temp, &hum);//温湿度读取
-		Read_DHT11(&data);
-		// printf("temp:%d hum:%d", temp, hum);//串口打印
+		Read_DHT11(&data); //温湿度读取
 		sprintf((char *)buf, "Temp:%d.%d C", data.temp_int, data.temp_deci);//整数转字符串 温度
-		//sprintf((char *)buf, "Temp:%d C", temp);//整数转字符串 温度
 		OLED_ShowString(1, 1, buf);//字符串显示
 		sprintf((char *)buf, "Humi:%d.%d %%", data.humi_int, data.humi_deci);//整数转字符串   湿度
-		//sprintf((char *)buf, "Humi:%d %%",temp);//整数转字符串   湿度
 		OLED_ShowString(3, 1, buf);//字符串显示
 
 	   key_status = key_setting();
