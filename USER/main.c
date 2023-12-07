@@ -9,6 +9,7 @@
 #define key_plus PBin(1)//温湿度+
 #define key_sub PBin(0)//温湿度-
 #define motor_fan PAout(1)//散热风扇
+#define motor_heat PAout(2)//加熱片
 #define motor_hum PBout(13)//加湿电机
 #define beep PBout(12)//蜂鸣器
 #define long_press_time 500 //长按时间
@@ -19,6 +20,17 @@
 
 //宏定义
 
+u8 temp = 0, hum = 0, key_status;
+	int buf1=0,buf2=20,buf3=70;
+////////////////////////////////////////////////////////////////////////////////// 	 
+// 参数说明：
+// buf1:控制启动开关 0：锁定 1:温度  2:湿度
+// buf2:设定温度值   0.0~100.0摄氏度
+// buf3:设定湿度值   0.0%~100.0%
+////////////////////////////////////////////////////////////////////////////////// 
+	DHT11_Data_TypeDef data;
+	char buf[127] = { 0 };
+//全局变量
 
 
 void OUTPUT_Init(void)
@@ -93,33 +105,62 @@ u8 key_setting(void)
     //按键没有被按下，返回0
     return 0;
 }
-
+void refresh(void){
+		Read_DHT11(&data);
+	    if(((data.temp_int + 0.1 * data.temp_deci) > buf2) && ((data.humi_int + 0.1 * data.humi_deci) >buf3)) {
+				motor_hum=0;
+				motor_fan=1;
+				motor_heat=0;
+				PWM_Set_fan(data.temp_int, buf2); //开风扇
+				PWM_Set_heat(0);
+				beep=1,delay_ms(50),beep=0,delay_ms(20),beep=1,delay_ms(20),beep=0;//温度过高或者湿度过低 开启蜂鸣器提醒
+		}
+		else if(((data.temp_int + 0.1 * data.temp_deci) < buf2) && ((data.humi_int + 0.1 * data.humi_deci) >buf3))  {	
+				beep=0;
+				motor_hum=0;
+				motor_fan=0;
+				motor_heat=1;
+			 	// PWM_Set_fan(0, buf2);//关闭风扇
+			    PWM_Set_heat(1);//,开启加热电阻
+		}
+		else if(((data.temp_int + 0.1 * data.temp_deci) < buf2) && ((data.humi_int + 0.1 * data.humi_deci) < buf3)) {
+				motor_hum=1,delay_ms(50),motor_hum=0,delay_ms(50);motor_hum=1,delay_ms(50),motor_hum=0,delay_ms(50);
+				motor_fan=0;
+				motor_heat=1;
+				PWM_Set_fan(0, buf2);//关闭风扇
+			    PWM_Set_heat(1);//,开启加热电阻 11
+				beep = 0;
+		}
+		else if (((data.temp_int + 0.1 * data.temp_deci) > buf2) && ((data.humi_int + 0.1 * data.humi_deci) < buf3)){
+				motor_hum=1,delay_ms(50),motor_hum=0,delay_ms(50);motor_hum=1,delay_ms(50),motor_hum=0,delay_ms(50);
+				motor_fan=1;
+				motor_heat=0;
+				PWM_Set_fan(data.temp_int, buf2);
+				PWM_Set_heat(0);
+				beep=1,delay_ms(10),beep=0,delay_ms(10),beep=1,delay_ms(10),beep=0;
+		}
+		else{
+				beep = 0;
+		}
+		sprintf((char *)buf, "Temp:%d.%d C", data.temp_int, data.temp_deci);//整数转字符串 温度
+		OLED_ShowString(1, 1, buf);//字符串显示
+		sprintf((char *)buf, "Humi:%d.%d %%", data.humi_int, data.humi_deci);//整数转字符串   湿度
+		OLED_ShowString(3, 1, buf);//字符串显示
+		sprintf((char *)buf, "Tset:%d C", buf2);//整数转字符串 温度
+		OLED_ShowString(2, 1, buf);//字符串显示
+		sprintf((char *)buf, "Hset:%d %%", buf3);//整数转字符串   湿度
+		OLED_ShowString(4, 1, buf);//字符串显示
+}
 int main(void)
 {	 
-		 
-	u8 temp = 0, hum = 0, key_status;
-	int buf1=0,buf2=30,buf3=70;
-////////////////////////////////////////////////////////////////////////////////// 	 
-// 参数说明：
-// buf1:控制启动开关 0：锁定 1:温度  2:湿度
-// buf2:设定温度值   0.0~100.0摄氏度
-// buf3:设定湿度值   0.0%~100.0%
-////////////////////////////////////////////////////////////////////////////////// 
-	DHT11_Data_TypeDef data;
-	unsigned char buf[127] = { 0 };
 	DELAY_Init();//下面都是初始化函数
 	OLED_Init() ; 
 	PWM_Init();	
 	KEY_Init();
 	OUTPUT_Init();
+	refresh();
 	while(1)
 	{
-		Read_DHT11(&data);
-		sprintf((char *)buf, "Temp:%d.%d C", data.temp_int, data.temp_deci);//整数转字符串 温度
-		OLED_ShowString(1, 1, buf);//字符串显示
-		sprintf((char *)buf, "Humi:%d.%d %%", data.humi_int, data.humi_deci);//整数转字符串   湿度
-		OLED_ShowString(3, 1, buf);//字符串显示
-
 	   key_status = key_setting();
 		  switch(key_status)
        {
@@ -127,6 +168,7 @@ int main(void)
                beep=1;
                buf1++;
                if(buf1>2) buf1=0;
+			 	refresh();
                delay_ms(100);
                beep=0;
                break;
@@ -147,12 +189,12 @@ int main(void)
 			while(key_plus!=0); 
 			{	buf2++;             //防抖
 				beep=1; 
-				
 			}
+			refresh();
 			delay_ms(30);
 			beep=0;
 			if(buf2>100) buf2=100;	
-			OLED_Init();		
+			// OLED_Init();		
 		}
 		if(key_sub==0&&buf1==1) //期望温度值-1
 		{		
@@ -161,9 +203,10 @@ int main(void)
 				beep=1; 
 			}
 			delay_ms(30);
+			refresh(); 
 			beep=0;
 			if(buf2<1) buf2=1;
-			OLED_Init();		
+			// OLED_Init();		
 		}		
 		if(key_plus==0&&buf1==2) //期望湿度值+1
 		{		
@@ -171,10 +214,11 @@ int main(void)
 			{	buf3++;             //防抖
 				beep=1; 
 			}	
+			refresh();
 			delay_ms(30);
 			beep=0;
 			if(buf3>100) buf3=100;	
-			OLED_Init();	
+			// OLED_Init();	
 		}
 		if(key_sub==0&&buf1==2) //期望湿度值-1
 		{		
@@ -182,42 +226,11 @@ int main(void)
 			{	buf3--;             //防抖
 				beep=1; 
 			}
+			refresh();
 			delay_ms(30);
 			beep=0;
 			if(buf3<1) buf3=1;	
-			OLED_Init();		
-		}
-		sprintf((char *)buf, "Tset:%d C", buf2);//整数转字符串 温度
-		OLED_ShowString(2, 1, buf);//字符串显示
-		sprintf((char *)buf, "Hset:%d %%", buf3);//整数转字符串   湿度
-		OLED_ShowString(4, 1, buf);//字符串显示
-	    if(((data.temp_int + 0.1 * data.temp_deci) > buf2) && ((data.humi_int + 0.1 * data.humi_deci) >buf3)) {
-				motor_hum=0;
-				PWM_Set_fan(data.temp_int, buf2); //开风扇
-				PWM_Set_heat(0);
-				beep=1,delay_ms(50),beep=0,delay_ms(20),beep=1,delay_ms(20),beep=0;//温度过高或者湿度过低 开启蜂鸣器提醒
-		}
-		else if(((data.temp_int + 0.1 * data.temp_deci) < buf2) && ((data.humi_int + 0.1 * data.humi_deci) >buf3))  {	
-				beep=0;
-				motor_hum=0;
-			 	PWM_Set_fan(0, buf2);//关闭风扇
-			    PWM_Set_heat(1);//,开启加热电阻
-		}
-		else if(((data.temp_int + 0.1 * data.temp_deci) < buf2) && ((data.humi_int + 0.1 * data.humi_deci) < buf3)) {
-				motor_hum=1,delay_ms(50),motor_hum=1,delay_ms(50);
-				PWM_Set_fan(0, buf2);//关闭风扇
-			    PWM_Set_heat(1);//,开启加热电阻 11
-				beep = 0;
-		
-		}
-		else if (((data.temp_int + 0.1 * data.temp_deci) > buf2) && ((data.humi_int + 0.1 * data.humi_deci) < buf3)){
-				motor_hum=1,delay_ms(50),motor_hum=1,delay_ms(50);
-				PWM_Set_fan(data.temp_int, buf2);
-				PWM_Set_heat(0);
-				beep=1,delay_ms(10),beep=0,delay_ms(10),beep=1,delay_ms(10),beep=0;
-		}
-		else{
-				beep = 0;
+			// OLED_Init();		
 		}
 		if(buf1==1)//显示设置状态
 		{
@@ -229,5 +242,6 @@ int main(void)
 			sprintf((char *)buf, "Hset:%d %%", buf3);//整数转字符串 湿度
 			OLED_ShowString(4, 1, buf);//字符串显示
 		}
+	
 	}
 }

@@ -56,7 +56,7 @@ void PWM_Init(void)
 
 void PWM_Set_fan(u8 temp, int set_temp)
 {
-	uint16_t Compare=temp - set_temp + 80;
+	uint16_t Compare=temp - set_temp;
 	TIM_SetCompare2(TIM2,Compare); 
 }
 

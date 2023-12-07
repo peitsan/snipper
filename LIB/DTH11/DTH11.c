@@ -67,7 +67,6 @@ uint8_t Read_DHT11(DHT11_Data_TypeDef *DHT11_Data)
 	DHT11_Mode_Out_PP();
 	DHT11_DATA_OUT(LOW);
 	delay_ms(18);
-
 	DHT11_DATA_OUT(HIGH); 
 
 	delay_us(30);  
