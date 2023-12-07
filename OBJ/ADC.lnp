@@ -21,6 +21,7 @@
 "..\obj\stm32f10x_dma.o"
 "..\obj\dth11.o"
 "..\obj\oled_1.o"
+"..\obj\pwm_1.o"
 --strict --scatter "..\OBJ\ADC.sct"
 --summary_stderr --info summarysizes --map --load_addr_map_info --xref --callgraph --symbols
 --info sizes --info totals --info unused --info veneers

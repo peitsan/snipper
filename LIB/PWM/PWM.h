@@ -1,66 +1,9 @@
 #ifndef __PWM_H
 #define __PWM_H
-#include "stm32f10x.h"  
-
-void PWM_Init(void)
-{
-
-	GPIO_InitTypeDef GPIO_InitStructure;//IO¿Ú½á¹¹Ìå
-	TIM_TimeBaseInitTypeDef TIM_TimeBaseInitSturcture;//Ê±»ù½á¹¹Ìå
-	TIM_OCInitTypeDef fan_TIM_OCInitStructure;//·çÉÈ  Êä³ö±È½Ï½á¹¹Ìå
-	TIM_OCInitTypeDef heat_TIM_OCInitStructure;//¼ÓÈÈ  Êä³ö±È½Ï½á¹¹Ìå
-	
-	RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM2,ENABLE); //¿ªÆô¶¨Ê±Æ÷Ê±ÖÓ
-	RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA,ENABLE);
-
-	
-	GPIO_InitStructure.GPIO_Mode=GPIO_Mode_AF_PP;  //ÍÆÍìÊä³ö
-	GPIO_InitStructure.GPIO_Pin=GPIO_Pin_1 | GPIO_Pin_2;  //pwmÊä³öÒı½ÅPA1 PA2
-	GPIO_InitStructure.GPIO_Speed=GPIO_Speed_50MHz;
-	GPIO_Init(GPIOA,&GPIO_InitStructure);
-	
-	//¶¨Ê±Æ÷³õÊ¼»¯
-	TIM_InternalClockConfig(TIM2);  //Ê¹ÓÃÄÚ²¿Ê±ÖÓ
-	
-	//³õÊ¼»¯Ê±»ùµ¥Ôª
-	
-	TIM_TimeBaseInitSturcture.TIM_ClockDivision=TIM_CKD_DIV1 ; //1·ÖÆµ ²»·ÖÆµ
-	TIM_TimeBaseInitSturcture.TIM_CounterMode=TIM_CounterMode_Up;  //ÏòÉÏ¼ÆÊıÄ£Ê½
-	TIM_TimeBaseInitSturcture.TIM_Period=100-1;//ARR ,×Ô¶¯ÖØ×°      ¶¨Ê±ÆµÂÊ=72M/(PSC+1)/(ARP+1)
-	TIM_TimeBaseInitSturcture.TIM_Prescaler=72-1;//PSC£¬Ô¤·ÖÆµ
-	TIM_TimeBaseInitSturcture.TIM_RepetitionCounter=0; //¸ß¼¶¼ÆÊıÆ÷²ÅÓĞ
-	TIM_TimeBaseInit(TIM2,&TIM_TimeBaseInitSturcture); 
-	
-	//·çÉÈ³õÊ¼»¯Êä³ö±È½Ï£¨PA1)
-	TIM_OCStructInit(&fan_TIM_OCInitStructure); //¸ø³ÉÔ±¸³³õÊ¼Öµ	
-	fan_TIM_OCInitStructure.TIM_OCMode=TIM_OCMode_PWM1;  //Êä³öÄ£Ê½
-	fan_TIM_OCInitStructure.TIM_OCNPolarity=TIM_OCNPolarity_High; //¸ß¼«ĞÔ£¬¼«ĞÔ²»·­×ª
-	fan_TIM_OCInitStructure.TIM_OutputState=TIM_OutputState_Enable; //Êä³öÊ¹ÄÜ
-	fan_TIM_OCInitStructure.TIM_Pulse=0;   //CCR	
-	TIM_OC2Init(TIM2,&fan_TIM_OCInitStructure);  
-	
-	
-	//¼ÓÈÈ³õÊ¼»¯Êä³ö±È½Ï(PA2)
-	TIM_OCStructInit(&heat_TIM_OCInitStructure); //¸ø³ÉÔ±¸³³õÊ¼Öµ	
-	heat_TIM_OCInitStructure.TIM_OCMode=TIM_OCMode_PWM1;  //Êä³öÄ£Ê½
-	heat_TIM_OCInitStructure.TIM_OCNPolarity=TIM_OCNPolarity_High; //¸ß¼«ĞÔ£¬¼«ĞÔ²»·­×ª
-	heat_TIM_OCInitStructure.TIM_OutputState=TIM_OutputState_Enable; //Êä³öÊ¹ÄÜ
-	heat_TIM_OCInitStructure.TIM_Pulse=0;   //CCR	
-	TIM_OC3Init(TIM2,&heat_TIM_OCInitStructure);  
-	
-
-	TIM_Cmd(TIM2,ENABLE);  //Æô¶¯¼ÆÊıÆ÷
-}
-
-void PWM_Set_fan(u8 temp,int set_temp)
-{
-	uint16_t Compare=temp - set_temp + 80;
-	TIM_SetCompare2(TIM2,Compare); 
-}
-
-void PWM_Set_heat(uint16_t Compare)
-{
-	TIM_SetCompare3(TIM2,Compare*100);       //¸ü¸ÄCCR,µ±ARR+1=100Ê±£¬CCR=Õ¼¿Õ±È
-}
-
+#include "stm32f10x.h"                  // Device header
+void PWM_Init(void);
+void PWM_Set_fan(u8 temp,int set_temp); //è®¾ç½®é£æ‰‡pwm,temp:å½“å‰æ¸©åº¦ ï¼Œ set_temp:è®¾å®šå¼€å¯çš„æ¸©åº¦
+void PWM_Set_heat(uint16_t Compare); //è®¾ç½®åŠ çƒ­ç”µé˜»pwmï¼Œè¾“å…¥1å¼€å¯ï¼Œ0å…³é—­
 #endif
+
+
