@@ -1,40 +1,112 @@
 *** Using Compiler 'V5.04 update 1 (build 49)', folder: 'F:\Program Files\Keil\ARM\ARMCC\Bin'
 Build target 'Target 1'
+compiling stm32f10x_it.c...
+compiling system_stm32f10x.c...
+compiling misc.c...
+assembling startup_stm32f10x_hd.s...
+compiling delay.c...
+compiling core_cm3.c...
+compiling usart.c...
+compiling stm32f10x_fsmc.c...
 compiling main.c...
 main.c(39): warning:  #177-D: variable "GPIOH_InitStructure" was declared but never referenced
    GPIO_InitTypeDef  GPIOA_InitStructure, GPIOB_InitStructure, GPIOH_InitStructure;
-main.c(268): warning:  #1-D: last line of file ends without a newline
-  }
-main.c: 2 warnings, 0 errors
-assembling startup_stm32f10x_hd.s...
-compiling system_stm32f10x.c...
-compiling core_cm3.c...
-compiling sys.c...
-compiling stm32f10x_rcc.c...
-compiling delay.c...
-compiling usart.c...
-compiling stm32f10x_it.c...
-compiling adc.c...
-compiling misc.c...
+main.c(129): error:  #70: incomplete type is not allowed
+  void refres h(void){
+main.c(129): error:  #65: expected a ";"
+  void refres h(void){
+main.c(150): warning:  #12-D: parsing restarts here after previous syntax error
+  				motor_heat=1;
+main.c(151): error:  #79: expected a type specifier
+  				PWM_Set_fan(0, buf2);//关闭风扇
+main.c(151): error:  #757: variable "buf2" is not a type name
+  				PWM_Set_fan(0, buf2);//关闭风扇
+main.c(151): warning:  #77-D: this declaration has no storage class or type specifier
+  				PWM_Set_fan(0, buf2);//关闭风扇
+main.c(151): error:  #147: declaration is incompatible with "void PWM_Set_fan(u8, int)" (declared at line 5 of "..\LIB\PWM\pwm.h")
+  				PWM_Set_fan(0, buf2);//关闭风扇
+main.c(152): error:  #79: expected a type specifier
+  			    PWM_Set_heat(1);//,开启加热电阻 11
+main.c(152): warning:  #77-D: this declaration has no storage class or type specifier
+  			    PWM_Set_heat(1);//,开启加热电阻 11
+main.c(152): error:  #147: declaration is incompatible with "void PWM_Set_heat(uint16_t)" (declared at line 6 of "..\LIB\PWM\pwm.h")
+  			    PWM_Set_heat(1);//,开启加热电阻 11
+main.c(153): error:  #40: expected an identifier
+  				beep = 0;
+main.c(153): error:  #79: expected a type specifier
+  				beep = 0;
+main.c(153): error:  #145: function "<error>" may not be initialized
+  				beep = 0;
+main.c(154): error:  #169: expected a declaration
+  		}
+main.c(166): warning:  #12-D: parsing restarts here after previous syntax error
+  		sprintf((char *)buf, "Temp:%d.%d C", data.temp_int, data.temp_deci);//整数转字符串 温度
+main.c(167): error:  #79: expected a type specifier
+  		OLED_ShowString(1, 1, buf);//字符串显示
+main.c(167): error:  #79: expected a type specifier
+  		OLED_ShowString(1, 1, buf);//字符串显示
+main.c(167): error:  #757: variable "buf" is not a type name
+  		OLED_ShowString(1, 1, buf);//字符串显示
+main.c(167): warning:  #77-D: this declaration has no storage class or type specifier
+  		OLED_ShowString(1, 1, buf);//字符串显示
+main.c(167): error:  #147: declaration is incompatible with "void OLED_ShowString(uint8_t, uint8_t, char *)" (declared at line 7 of "..\LIB\OLED\Oled.h")
+  		OLED_ShowString(1, 1, buf);//字符串显示
+main.c(168): error:  #79: expected a type specifier
+  		sprintf((char *)buf, "Humi:%d.%d %%", data.humi_int, data.humi_deci);//整数转字符串   湿度
+main.c(168): error:  #79: expected a type specifier
+  		sprintf((char *)buf, "Humi:%d.%d %%", data.humi_int, data.humi_deci);//整数转字符串   湿度
+main.c(168): error:  #757: variable "data" is not a type name
+  		sprintf((char *)buf, "Humi:%d.%d %%", data.humi_int, data.humi_deci);//整数转字符串   湿度
+main.c(168): error:  #18: expected a ")"
+  		sprintf((char *)buf, "Humi:%d.%d %%", data.humi_int, data.humi_deci);//整数转字符串   湿度
+main.c(168): warning:  #77-D: this declaration has no storage class or type specifier
+  		sprintf((char *)buf, "Humi:%d.%d %%", data.humi_int, data.humi_deci);//整数转字符串   湿度
+main.c(168): error:  #147-D: declaration is incompatible with "int sprintf(char *restrict, const char *restrict, ...)" (declared at line 389 of "F:\Program Files\Keil\ARM\ARMCC\Bin\..\include\stdio.h")
+  		sprintf((char *)buf, "Humi:%d.%d %%", data.humi_int, data.humi_deci);//整数转字符串   湿度
+main.c(169): error:  #79: expected a type specifier
+  		OLED_ShowString(3, 1, buf);//字符串显示
+main.c(169): error:  #79: expected a type specifier
+  		OLED_ShowString(3, 1, buf);//字符串显示
+main.c(169): error:  #757: variable "buf" is not a type name
+  		OLED_ShowString(3, 1, buf);//字符串显示
+main.c(169): warning:  #77-D: this declaration has no storage class or type specifier
+  		OLED_ShowString(3, 1, buf);//字符串显示
+main.c(170): error:  #79: expected a type specifier
+  		sprintf((char *)buf, "Tset:%d C", buf2);//整数转字符串 温度
+main.c(170): error:  #79: expected a type specifier
+  		sprintf((char *)buf, "Tset:%d C", buf2);//整数转字符串 温度
+main.c(170): error:  #757: variable "buf2" is not a type name
+  		sprintf((char *)buf, "Tset:%d C", buf2);//整数转字符串 温度
+main.c(170): warning:  #77-D: this declaration has no storage class or type specifier
+  		sprintf((char *)buf, "Tset:%d C", buf2);//整数转字符串 温度
+main.c(171): error:  #79: expected a type specifier
+  		OLED_ShowString(2, 1, buf);//字符串显示
+main.c(171): error:  #79: expected a type specifier
+  		OLED_ShowString(2, 1, buf);//字符串显示
+main.c(171): error:  #757: variable "buf" is not a type name
+  		OLED_ShowString(2, 1, buf);//字符串显示
+main.c(171): warning:  #77-D: this declaration has no storage class or type specifier
+  		OLED_ShowString(2, 1, buf);//字符串显示
+main.c(172): error:  #79: expected a type specifier
+  		sprintf((char *)buf, "Hset:%d %%", buf3);//整数转字符串   湿度
+main.c: 10 warnings, 30 errors
 compiling stm32f10x_gpio.c...
-compiling stm32f10x_fsmc.c...
+compiling sys.c...
+compiling adc.c...
 compiling stm32f10x_flash.c...
 compiling Oled.c...
+compiling stm32f10x_rcc.c...
 compiling stm32f10x_tim.c...
 compiling stm32f10x_usart.c...
 compiling stm32f10x_adc.c...
-compiling stm32f10x_dma.c...
 compiling stm32f10x_dac.c...
 compiling DTH11.c...
 ..\LIB\DTH11\DTH11.c(105): warning:  #1-D: last line of file ends without a newline
   }
 ..\LIB\DTH11\DTH11.c: 1 warning, 0 errors
+compiling stm32f10x_dma.c...
 compiling PWM.c...
 compiling Oled.c...
-linking...
-..\OBJ\ADC.axf: Warning: L6304W: Duplicate input file ..\obj\oled_1.o ignored.
-Program Size: Code=13764 RO-data=1856 RW-data=80 ZI-data=1960  
-Finished: 0 information, 1 warning and 0 error messages.
-FromELF: creating hex file...
-"..\OBJ\ADC.axf" - 0 Error(s), 4 Warning(s).
+"..\OBJ\ADC.axf" - 30 Error(s), 11 Warning(s).
+Target not created.
 Build Time Elapsed:  00:00:02
