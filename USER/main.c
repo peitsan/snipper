@@ -37,10 +37,7 @@ u8 temp = 0, hum = 0, key_status;
 void OUTPUT_Init(void)
 { 
  GPIO_InitTypeDef  GPIOA_InitStructure, GPIOB_InitStructure, GPIOH_InitStructure;
- 	
-//  RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOB, ENABLE);	 //使能P端口时钟
-//  RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA, ENABLE);	 //使能P端口时钟	
-//  GPIO_InitStructure.GPIO_Pin = GPIO_Pin_14|GPIO_Pin_15|GPIO_Pin_10;				 //IO输出端口配置
+ 			 //IO输出端口配置
  GPIOA_InitStructure.GPIO_Pin = GPIO_Pin_1 | GPIO_Pin_2;				 //IO输出端口配置
  GPIOA_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP; 		 //推挽输出
  GPIOA_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
@@ -114,21 +111,26 @@ u8 key_setting(void)
 }
 void hum_on(void){
 	if (motor_hum_trigger % 3 == 0) { // 七彩模式
-          			  motor_hum=1,delay_ms(1000),motor_hum=0,delay_ms(1000);motor_hum=1;
+          			  motor_hum=1,delay_ms(200),motor_hum=0,delay_ms(400);motor_hum=1;
     }else if (motor_hum_trigger % 3 == 1) { // 七彩模式
-          			  motor_hum=1;
+          			  motor_hum=1;delay_ms(200),motor_hum=0;
     }	
 		motor_hum_trigger ++;
 }
 void hum_off(void){
-	if (motor_hum_trigger % 3 != 0) { // 七彩模式
-          			   motor_hum=0;
-    }
+	if (motor_hum_trigger % 3 == 1) { // 七彩模式
+          			  motor_hum=1,delay_ms(200),motor_hum=0,delay_ms(400);motor_hum=1;
+					  motor_hum_trigger = 0;
+    }else if (motor_hum_trigger % 3 == 2) { // 七彩模式
+          			  motor_hum=1;delay_ms(200),motor_hum=0;
+					  motor_hum_trigger = 0;
+    }else
 		motor_hum_trigger = 0;
 }
-void refres h(void){
+void refresh(void){
 		Read_DHT11(&data);
-	    if(((data.temp_int + 0.1 * data.temp_deci) > buf2) && ((data.humi_int + 0.1 * data.humi_deci) >buf3)) {
+		delay_ms(2000);
+	    if((data.temp_int > buf2) && (data.humi_int >buf3)) {
 				hum_off();
 				motor_fan=1;
 				motor_heat=0;
@@ -136,7 +138,7 @@ void refres h(void){
 				PWM_Set_heat(0);
 				beep=1,delay_ms(50),beep=0,delay_ms(20),beep=1,delay_ms(20),beep=0;//温度过高或者湿度过低 开启蜂鸣器提醒
 		}
-		else if(((data.temp_int + 0.1 * data.temp_deci) < buf2) && ((data.humi_int + 0.1 * data.humi_deci) >buf3))  {	
+		else if((data.temp_int  < buf2) && (data.humi_int >buf3))  {	
 				beep=0;
 				hum_off();
 				motor_fan=1;
@@ -144,7 +146,7 @@ void refres h(void){
 			 	PWM_Set_fan(data.humi_deci, buf3);
 			    PWM_Set_heat(1);//,开启加热电阻
 		}
-		else if(((data.temp_int + 0.1 * data.temp_deci) < buf2) && ((data.humi_int + 0.1 * data.humi_deci) < buf3)) {
+		else if((data.temp_int < buf2) && (data.humi_int < buf3)) {
 				hum_on();
 				motor_fan=0;
 				motor_heat=1;
@@ -152,7 +154,7 @@ void refres h(void){
 			    PWM_Set_heat(1);//,开启加热电阻 11
 				beep = 0;
 		}
-		else if (((data.temp_int + 0.1 * data.temp_deci) > buf2) && ((data.humi_int + 0.1 * data.humi_deci) < buf3)){
+		else if ((data.temp_int > buf2) && (data.humi_int  < buf3)){
 				hum_on();
 				motor_fan=1;
 				motor_heat=0;
@@ -182,6 +184,7 @@ int main(void)
 	refresh();
 	while(1)
 	{
+	   refresh();
 	   key_status = key_setting();
 		  switch(key_status)
        {
