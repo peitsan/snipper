@@ -130,7 +130,7 @@ void hum_off(void){
 void refresh(void){
 		Read_DHT11(&data);
 		delay_ms(2000);
-	    if((data.temp_int > buf2) && (data.humi_int >buf3)) {
+	    if(((data.temp_int + 0.1 * data.temp_deci) > buf2) && ((data.humi_int + 0.1 * data.humi_deci) >buf3)) {
 				hum_off();
 				motor_fan=1;
 				motor_heat=0;
@@ -138,7 +138,7 @@ void refresh(void){
 				PWM_Set_heat(0);
 				beep=1,delay_ms(50),beep=0,delay_ms(20),beep=1,delay_ms(20),beep=0;//温度过高或者湿度过低 开启蜂鸣器提醒
 		}
-		else if((data.temp_int  < buf2) && (data.humi_int >buf3))  {	
+		else if(((data.temp_int + 0.1 * data.temp_deci) < buf2) && ((data.humi_int + 0.1 * data.humi_deci) >buf3))  {	
 				beep=0;
 				hum_off();
 				motor_fan=1;
@@ -146,7 +146,7 @@ void refresh(void){
 			 	PWM_Set_fan(data.humi_deci, buf3);
 			    PWM_Set_heat(1);//,开启加热电阻
 		}
-		else if((data.temp_int < buf2) && (data.humi_int < buf3)) {
+		else if(((data.temp_int + 0.1 * data.temp_deci) < buf2) && ((data.humi_int + 0.1 * data.humi_deci) < buf3)) {
 				hum_on();
 				motor_fan=0;
 				motor_heat=1;
@@ -154,7 +154,7 @@ void refresh(void){
 			    PWM_Set_heat(1);//,开启加热电阻 11
 				beep = 0;
 		}
-		else if ((data.temp_int > buf2) && (data.humi_int  < buf3)){
+		else if (((data.temp_int + 0.1 * data.temp_deci) > buf2) && ((data.humi_int + 0.1 * data.humi_deci) < buf3)){
 				hum_on();
 				motor_fan=1;
 				motor_heat=0;
