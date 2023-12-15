@@ -73,33 +73,33 @@ uint8_t Read_DHT11(DHT11_Data_TypeDef *DHT11_Data)
 
 	DHT11_Mode_IPU();
 
-	if(DHT11_DATA_IN() == Bit_RESET)     
-	{
-		while(DHT11_DATA_IN() == Bit_RESET);
+		if(DHT11_DATA_IN() == Bit_RESET)     
+		{
+			while(DHT11_DATA_IN() == Bit_RESET);
 
-		while(DHT11_DATA_IN() == Bit_SET);
+			while(DHT11_DATA_IN() == Bit_SET);
 
-		DHT11_Data -> humi_int = Read_Byte();
+			DHT11_Data -> humi_int = Read_Byte();
 
-		DHT11_Data -> humi_deci = Read_Byte();
+			DHT11_Data -> humi_deci = Read_Byte();
 
-		DHT11_Data -> temp_int = Read_Byte();
+			DHT11_Data -> temp_int = Read_Byte();
 
-		DHT11_Data -> temp_deci = Read_Byte();
+			DHT11_Data -> temp_deci = Read_Byte();
 
-		DHT11_Data -> check_sum= Read_Byte();
+			DHT11_Data -> check_sum= Read_Byte();
 
 
-		DHT11_Mode_Out_PP();
-		DHT11_DATA_OUT(HIGH);
+			DHT11_Mode_Out_PP();
+			DHT11_DATA_OUT(HIGH);
 
-		if (DHT11_Data -> check_sum == DHT11_Data -> humi_int + DHT11_Data -> humi_deci + DHT11_Data -> temp_int + DHT11_Data -> temp_deci)
-			return SUCCESS;
-		else 
+			if (DHT11_Data -> check_sum == DHT11_Data -> humi_int + DHT11_Data -> humi_deci + DHT11_Data -> temp_int + DHT11_Data -> temp_deci)
+				return SUCCESS;
+			else 
+				return ERROR;
+		}
+		else
+		{		
 			return ERROR;
+		}   
 	}
-	else
-	{		
-		return ERROR;
-	}   
-}

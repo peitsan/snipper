@@ -5,7 +5,6 @@
 ..\obj\stm32f10x_dma.o: F:\Program Files\Keil\ARM\ARMCC\Bin\..\include\stdint.h
 ..\obj\stm32f10x_dma.o: ..\USER\system_stm32f10x.h
 ..\obj\stm32f10x_dma.o: ..\USER\stm32f10x_conf.h
-..\obj\stm32f10x_dma.o: ..\LIB\TIM_TIMER\timer.h
 ..\obj\stm32f10x_dma.o: ..\LIB\DTH11\DTH11.h
 ..\obj\stm32f10x_dma.o: ..\SYSTEM\delay\delay.h
 ..\obj\stm32f10x_dma.o: ..\SYSTEM\sys\sys.h

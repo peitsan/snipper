@@ -29,7 +29,7 @@ u8 temp = 0, hum = 0, key_status;
 // buf3:设定湿度值   0.0%~100.0%
 ////////////////////////////////////////////////////////////////////////////////// 
 	DHT11_Data_TypeDef data;
-	char buf[127] = { 0 };
+	unsigned char buf[127] = { 0 };
 	int motor_hum_trigger = 0; //加湿模式切换
 //全局变量
 
@@ -47,12 +47,8 @@ void OUTPUT_Init(void)
  GPIOB_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
 
  
-//  GPIOH_InitStructure.GPIO_Pin = GPIO_Pin_13;				 //IO输出端口配置
-//  GPIOH_InitStructure.GPIO_Mode = GPIO_Mode_IPD; 		 //下降沿触发输入
-//  GPIOH_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
  GPIO_Init(GPIOA, &GPIOA_InitStructure);
  GPIO_Init(GPIOB, &GPIOB_InitStructure);	
-//  GPIO_Init(GPIOB, &GPIOH_InitStructure);
 
  GPIO_SetBits(GPIOA,GPIO_Pin_2);						 //输出高
  GPIO_SetBits(GPIOA,GPIO_Pin_1);						 //输出高
@@ -165,14 +161,15 @@ void refresh(void){
 		else{
 				beep = 0;
 		}
-		sprintf((char *)buf, "Temp:%d.%d C", data.temp_int, data.temp_deci);//整数转字符串 温度
+		sprintf((unsigned char *)buf, "Temp:%d.%d C", data.temp_int, data.temp_deci);//整数转字符串 温度
 		OLED_ShowString(1, 1, buf);//字符串显示
-		sprintf((char *)buf, "Humi:%d.%d %%", data.humi_int, data.humi_deci);//整数转字符串   湿度
+		sprintf((unsigned char *)buf, "Humi:%d.%d %%", data.humi_int, data.humi_deci);//整数转字符串   湿度
 		OLED_ShowString(3, 1, buf);//字符串显示
-		sprintf((char *)buf, "Tset:%d C", buf2);//整数转字符串 温度
+		sprintf((unsigned char *)buf, "Tset:%d C", buf2);//整数转字符串 温度
 		OLED_ShowString(2, 1, buf);//字符串显示
-		sprintf((char *)buf, "Hset:%d %%", buf3);//整数转字符串   湿度
+		sprintf((unsigned char *)buf, "Hset:%d %%", buf3);//整数转字符串   湿度
 		OLED_ShowString(4, 1, buf);//字符串显示
+		
 }
 int main(void)
 {	 
@@ -218,7 +215,6 @@ int main(void)
 			delay_ms(30);
 			beep=0;
 			if(buf2>100) buf2=100;	
-			// OLED_Init();		
 		}
 		if(key_sub==0&&buf1==1) //期望温度值-1
 		{		
@@ -230,7 +226,6 @@ int main(void)
 			refresh(); 
 			beep=0;
 			if(buf2<1) buf2=1;
-			// OLED_Init();		
 		}		
 		if(key_plus==0&&buf1==2) //期望湿度值+1
 		{		
@@ -242,7 +237,6 @@ int main(void)
 			delay_ms(30);
 			beep=0;
 			if(buf3>100) buf3=100;	
-			// OLED_Init();	
 		}
 		if(key_sub==0&&buf1==2) //期望湿度值-1
 		{		
@@ -254,7 +248,6 @@ int main(void)
 			delay_ms(30);
 			beep=0;
 			if(buf3<1) buf3=1;	
-			// OLED_Init();		
 		}
 		if(buf1==1)//显示设置状态
 		{

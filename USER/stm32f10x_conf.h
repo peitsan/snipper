@@ -22,7 +22,7 @@
 /* Define to prevent recursive inclusion -------------------------------------*/
 #ifndef __STM32F10x_CONF_H
 #define __STM32F10x_CONF_H
-#include "timer.h" 
+// #include "timer.h" 
 /* Includes ------------------------------------------------------------------*/
 /* Uncomment/Comment the line below to enable/disable peripheral header file inclusion */
 //#include "menue.h"
